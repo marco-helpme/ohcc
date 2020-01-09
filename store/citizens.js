@@ -10,10 +10,10 @@ export const mutations = {
     state.citizens = state.citizens.concat(citizen)
   },
   DELETE_CITIZEN (state, citizenId) {
-    state.citizens = state.citizens.filter(v => v.id !== citizenId)
+    state.citizens = state.citizens.filter(v => v.id_usuario !== citizenId)
   },
   EDIT_CITIZEN (state, citizen) {
-    state.citizens = state.citizens.find(v => v.id === citizen.id)
+    state.citizens = state.citizens.find(v => v.id_usuario === citizen.usuario)
   }
 }
 export const actions = {
