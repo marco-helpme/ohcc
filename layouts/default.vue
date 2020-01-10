@@ -116,6 +116,11 @@ export default {
           icon: 'mdi-chart-bubble',
           title: 'Ciudadanos',
           to: '/citizens'
+        },
+        {
+          icon: 'mdi-chart-bubble',
+          title: 'Sujerencias',
+          to: '/suggestions'
         }
       ],
       miniVariant: false,

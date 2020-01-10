@@ -8,5 +8,8 @@ export const actions = {
     const citizensAPI = await this.$axios.get('/ciudadanos/data-join')
     const citizens = citizensAPI.data.data
     commit('citizens/SET_CITIZEN', citizens)
+    const suggestionsAPI = await this.$axios.get('/solicitudes/tipo/6')
+    const suggestions = suggestionsAPI.data.data
+    commit('suggestions/SET_SUGGESTION', suggestions)
   }
 }
