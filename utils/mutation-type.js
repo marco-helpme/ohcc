@@ -55,3 +55,56 @@ export const loadUsers = 'loadUsers'
 export const createUser = 'createUser'
 export const deleteUser = 'deleteUser'
 export const editUser = 'editUser'
+
+// EXECUTIVES
+// MUTATIONS
+export const SET_EXECUTIVES_MUTATION = 'SET_EXECUTIVES_MUTATION'
+export const SET_EXECUTIVE_MUTATION = 'SET_EXECUTIVE_MUTATION'
+export const SET_EXECUTIVES_USERS_DATA_MUTATION = 'SET_EXECUTIVES_USERS_DATA_MUTATION'
+export const SET_EXECUTIVES_USERS_MUTATION = 'SET_EXECUTIVES_USERS_MUTATION'
+export const ADD_EXECUTIVES_MUTATION = 'ADD_EXECUTIVES_MUTATION'
+export const DELETE_EXECUTIVES_MUTATION = 'DELETE_EXECUTIVES_MUTATION'
+export const EDIT_EXECUTIVES_MUTATION = 'EDIT_EXECUTIVES_MUTATION'
+// ACTIONS
+export const loadExecutives = 'loadExecutives'
+export const loadExecutive = 'loadExecutive'
+export const loadExecutivesUserData = 'loadExecutivesUserData'
+export const loadExecutivesUsers = 'loadExecutivesUsers'
+export const createExecutive = 'createExecutive'
+export const deleteExecutive = 'deleteExecutive'
+export const editExecutive = 'editExecutive'
+
+// SPECIALISTS
+// MUTATIONS
+export const SET_SPECIALISTS_MUTATION = 'SET_SPECIALISTS_MUTATION'
+export const ADD_SPECIALISTS_MUTATION = 'ADD_SPECIALISTS_MUTATION'
+export const EDIT_SPECIALISTS_MUTATION = 'EDIT_SPECIALISTS_MUTATION'
+export const DELETE_SPECIALISTS_MUTATION = 'DELETE_SPECIALISTS_MUTATION'
+export const SET_SPECIALISTA_MUTATION = 'SET_SPECIALISTA_MUTATION'
+export const SET_SPECIALISTS_USER_DATA_MUTATION = 'SET_SPECIALISTS_USER_DATA_MUTATION'
+export const SET_SPECIALISTS_USER_MUTATION = 'SET_SPECIALISTS_USER_MUTATION'
+// ACTIONS
+export const loadSpecialists = 'loadSpecialists'
+export const loadSpecialistById = 'loadSpecialistById'
+export const loadSpecialistUserData = 'loadSpecialistUserData'
+export const loadSpecialistUser = 'loadSpecialistUser'
+export const createSpecialist = 'createSpecialist'
+export const deleteSpecialist = 'deleteSpecialist'
+export const editSpecialist = 'editSpecialist'
+
+// STATES
+// MUTATIONS
+export const SET_STATES_MUTATION = 'SET_STATES_MUTATION'
+// ACTIONS
+export const loadStates = 'loadStates'
+
+// CITIZENS_TYPE
+// MUTATIONS
+export const SET_CITIZENS_TYPE_MUTATION = 'SET_CITIZENS_TYPE_MUTATION'
+// ACTIONS
+export const loadCitizensType = 'loadCitizensType'
+
+// REQUEST TYPE
+// MUTATIONS
+export const SET_REQUEST_TYPE_MUTATION = 'SET_REQUEST_TYPE_MUTATION'
+export const loadRequestType = 'loadRequestType'

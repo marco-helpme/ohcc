@@ -72,7 +72,7 @@ export const actions = {
   async [ loadRequests ] ({ commit }) {
     const response = await this.$axios.get('/solicitudes')
     const requests = response.data.data
-    commit('SET_SUGGESTION_MUTATION', requests)
+    commit('SET_REQUESTS_MUTATION', requests)
   },
   // Obtener una solicitud por id
   async [loadRquestById] ({ commit }, requestId) {
