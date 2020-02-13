@@ -4,12 +4,14 @@ import {
   createUser, DELETE_USER_MUTATION,
   deleteUser, EDIT_USER_MUTATION,
   editUser,
+  login,
   loadUsers,
-  SET_USERS_MUTATION
+  SET_USERS_MUTATION, LOGIN_USER_MUTATION
 } from '~/utils/mutation-type'
 
 export const state = () => ({
-  users: []
+  users: [],
+  user: []
 })
 
 export const mutations = {
@@ -27,6 +29,9 @@ export const mutations = {
       ...state.users.map(item =>
         item.id_usuario !== payload.id_usuario ? item : { ...item, ...payload })
     ]
+  },
+  [LOGIN_USER_MUTATION] (state, payload) {
+    state.user = payload
   }
 }
 
@@ -58,6 +63,16 @@ export const actions = {
       const newuser = response.data
       commit('EDIT_USER_MUTATION', user)
       return newuser
+    } catch (e) {
+      console.log(e.response.data)
+    }
+  },
+  async [login] ({ commit }, user) {
+    try {
+      const response = await this.$axios.post(`usuarios/login`, user)
+      const payload = response.data.data
+      commit('LOGIN_USER_MUTATION', payload)
+      return payload
     } catch (e) {
       console.log(e.response.data)
     }

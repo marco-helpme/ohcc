@@ -1,7 +1,7 @@
 <template>
   <v-data-table
     :headers="headers"
-    :items="users"
+    :items="executiveUsers"
     sort-by="nombre"
     class="elevation-1"
   >
@@ -17,7 +17,7 @@
         <v-dialog v-model="dialog" max-width="500px">
           <template v-slot:activator="{ on }">
             <v-btn v-on="on" color="primary" dark class="mb-2">
-              Nuevo Usuario
+              Nuevo Directivo
             </v-btn>
           </template>
           <v-card>
@@ -46,12 +46,19 @@
                   <v-col cols="12" sm="6" md="4">
                     <v-text-field v-model="editedItem.id_rol" label="Rol" />
                   </v-col>
+                  <v-col cols="12" sm="6" md="4">
+                    <v-text-field v-model="editedItem.id_directivo" label="Id Directivo" />
+                  </v-col>
+                  <v-col cols="12" sm="6" md="4">
+                    <v-text-field v-model="editedItem.cargo" label="Cargo" />
+                  </v-col>
                 </v-row>
               </v-container>
             </v-card-text>
+
             <v-card-actions>
               <v-spacer />
-              <v-btn @click="close" color="blue darken-1" text >
+              <v-btn @click="close" color="blue darken-1" text>
                 Cancel
               </v-btn>
               <v-btn @click="save(editedItem)" color="blue darken-1" text>
@@ -101,6 +108,8 @@ export default {
       { text: 'Nombre de Usuario', value: 'nombre_usuario' },
       { text: 'Contraseña', value: 'password' },
       { text: 'Rol', value: 'id_rol' },
+      { text: 'Directivo', value: 'id_directivo' },
+      { text: 'Cargo', value: 'cargo' },
       { text: 'Actions', value: 'action', sortable: false }
     ],
     // users: [],
@@ -111,7 +120,9 @@ export default {
       apellido_2: '',
       nombre_usuario: '',
       password: '',
-      id_rol: 1
+      id_rol: 1,
+      id_directivo: null,
+      cargo: ''
     },
     defaultItem: {
       nombre: '',
@@ -119,7 +130,9 @@ export default {
       apellido_2: '',
       nombre_usuario: '',
       password: '',
-      id_rol: 1
+      id_rol: 1,
+      id_directivo: null,
+      cargo: ''
     }
   }),
 
@@ -127,11 +140,10 @@ export default {
     formTitle () {
       return this.editedIndex === -1 ? 'Nuevo Usuario' : 'Editar Usuario'
     },
-    ...mapState('users', [
-      'users'
+    ...mapState('executives', [
+      'executiveUsers'
     ])
   },
-
   watch: {
     dialog (val) {
       val || this.close()
@@ -150,7 +162,7 @@ export default {
       'loadUsers'
     ]),
     editItem (item) {
-      this.editedIndex = this.users.indexOf(item)
+      this.editedIndex = this.executiveUsers.indexOf(item)
       this.editedItem = Object.assign({}, item)
       this.dialog = true
     },

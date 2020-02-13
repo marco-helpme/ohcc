@@ -55,6 +55,7 @@ export const loadUsers = 'loadUsers'
 export const createUser = 'createUser'
 export const deleteUser = 'deleteUser'
 export const editUser = 'editUser'
+export const login = 'login'
 
 // EXECUTIVES
 // MUTATIONS
@@ -65,6 +66,7 @@ export const SET_EXECUTIVES_USERS_MUTATION = 'SET_EXECUTIVES_USERS_MUTATION'
 export const ADD_EXECUTIVES_MUTATION = 'ADD_EXECUTIVES_MUTATION'
 export const DELETE_EXECUTIVES_MUTATION = 'DELETE_EXECUTIVES_MUTATION'
 export const EDIT_EXECUTIVES_MUTATION = 'EDIT_EXECUTIVES_MUTATION'
+export const LOGIN_USER_MUTATION = 'LOGIN_USER_MUTATION'
 // ACTIONS
 export const loadExecutives = 'loadExecutives'
 export const loadExecutive = 'loadExecutive'

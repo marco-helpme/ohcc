@@ -1,12 +1,13 @@
 import {
-  ADD_SPECIALISTS_MUTATIONS, createSpecialist,
-  DELETE_SPECIALISTS_MUTATIONS, deleteSpecialist,
-  EDIT_SPECIALISTS_MUTATIONS, editSpecialist,
+  ADD_SPECIALISTS_MUTATION,
+  createSpecialist, DELETE_SPECIALISTS_MUTATION,
+  deleteSpecialist, EDIT_SPECIALISTS_MUTATION,
+  editSpecialist,
   loadSpecialist,
   loadSpecialists, loadSpecialistUser,
   loadSpecialistUserData,
   SET_SPECIALISTA_MUTATION,
-  SET_SPECIALISTS_MUTATIONS,
+  SET_SPECIALISTS_MUTATION,
   SET_SPECIALISTS_USER_DATA_MUTATION,
   SET_SPECIALISTS_USER_MUTATION
 } from '~/utils/mutation-type'
@@ -19,7 +20,7 @@ export const state = () => ({
 })
 
 export const mutations = {
-  [SET_SPECIALISTS_MUTATIONS] (state, specialists) {
+  [SET_SPECIALISTS_MUTATION] (state, specialists) {
     state.specialists = specialists
   },
   [SET_SPECIALISTA_MUTATION] (state, specialista) {
@@ -31,16 +32,16 @@ export const mutations = {
   [SET_SPECIALISTS_USER_MUTATION] (state, specialistUser) {
     state.specialistUser = specialistUser
   },
-  [ADD_SPECIALISTS_MUTATIONS] (state, specialist) {
+  [ADD_SPECIALISTS_MUTATION] (state, specialist) {
     state.specialists = state.specialists.concat(specialist)
   },
-  [EDIT_SPECIALISTS_MUTATIONS] (state, payload) {
+  [EDIT_SPECIALISTS_MUTATION] (state, payload) {
     state.specialists = [
       ...state.specialists.map(item =>
         item.id_usuario !== payload.id_usuario ? item : { ...item, ...payload })
     ]
   },
-  [DELETE_SPECIALISTS_MUTATIONS] (state, specialistId) {
+  [DELETE_SPECIALISTS_MUTATION] (state, specialistId) {
     state.specialists = state.specialists.filter(v => v.id_usuario !== specialistId)
   }
 }

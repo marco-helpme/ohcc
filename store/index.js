@@ -3,6 +3,7 @@ export const actions = {
   // todo el contenido de la api
   async nuxtServerInit ({ dispatch }) {
     await dispatch('executives/loadExecutives')
+    await dispatch('executives/loadExecutivesUsers')
     await dispatch('users/loadUsers')
     await dispatch('citizens/loadCitizens')
     await dispatch('suggestions/loadRequests')
