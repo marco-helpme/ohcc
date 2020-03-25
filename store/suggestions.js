@@ -6,12 +6,12 @@ import {
   EDIT_REQUEST_MUTATION,
   editSuggestion,
   getCompletedRequest,
-  getRequestBySpecialist,
+  getRequestBySpecialist, loadRequestComplains,
   loadRequests,
   loadRquestById,
   loadRquestType,
   loadRquestUser,
-  SET_REQUEST_MUTATION,
+  SET_REQUEST_MUTATION, SET_REQUESTS_COMPLAINS_MUTATION,
   SET_REQUESTS_FINISHED_MUTATION,
   SET_REQUESTS_MUTATION,
   SET_REQUESTS_SPECIALIST_MUTATION,
@@ -30,13 +30,17 @@ export const state = () => ({
   requests_user: [],
   requests_type: [],
   requests_specialist: [],
-  requests_finished: []
+  requests_finished: [],
+  requests_complains: []
 
 })
 
 export const mutations = {
   [ SET_REQUESTS_MUTATION ] (state, requests) {
     state.requests = requests
+  },
+  [ SET_REQUESTS_COMPLAINS_MUTATION ] (state, requests) {
+    state.requests_complains = requests
   },
   [ SET_REQUEST_MUTATION ] (state, request) {
     state.request = request
@@ -80,18 +84,31 @@ export const actions = {
     const request = response.data.data
     commit('SET_REQUEST_MUTATION', request)
   },
+  // OBTENER LAS QUEJAS
+  async [loadRequestComplains] ({ commit }) {
+    try {
+      const response = await this.$axios.get(`/solicitudes/tipo/5`)
+      const request = response.data.data
+      commit('SET_REQUESTS_COMPLAINS_MUTATION', request)
+      console.log(request)
+    } catch (e) {
+      console.log(e.data.message)
+    }
+  },
   // chequear esta funcion
   // Obtener todas las solicitudes de un usuario
   async [loadRquestUser] ({ commit }, request) {
-    const response = await this.$axios.get(`solicitudes/usuario-tipo`, request)
+    const response = await this.$axios.post(`/solicitudes/usuario-tipo`, request)
     const payload = response.data.data
+    console.log(response.message)
     commit('SET_REQUESTS_USER_MUTATION', payload)
+    return payload
   },
   // Obtener todas las solicitudes X tipo
-  async [loadRquestType] ({ commit }, request) {
-    const response = await this.$axios.get(`solicitudes/tipo/${request.id_tipo_solicitud}`, request)
+  async [loadRquestType] ({ commit }, id) {
+    const response = await this.$axios.get(`solicitudes/tipo/${id}`, id)
     const payload = response.data.data
-    commit('SET_REQUESTS_TYPE_MUTATION', payload)
+    commit('SET_REQUESTS_SPECIALIST_MUTATION', payload)
   },
   // Agregar una Solicitud creada por el usuario
   async [createRequest] ({ commit }, request) {
@@ -102,7 +119,7 @@ export const actions = {
   },
   async [deleteRequest] ({ commit }, request) {
     try {
-      const response = await this.$axios.delete(`/solicitudes/borrar/${request.id_solicitud}`)
+      const response = await this.$axios.delete(`/solicitudes/borrar/${request.id_solicitud}`, request)
       if (response.status === 200 || response.status === 204) {
         commit('DELETE_REQUEST_MUTATION', request.id_solicitud)
         alert('Sujerencia eliminada con exito')
@@ -111,6 +128,7 @@ export const actions = {
       console.log(e.response.data)
     }
   },
+  // no sirve no se edita asi
   async [editSuggestion] ({ commit }, request) {
     try {
       const response = await this.$axios.put(`usuarios/actualizar/${request.id_solicitud}`, request)

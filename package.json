@@ -14,8 +14,15 @@
   "dependencies": {
     "@nuxtjs/auth": "^4.8.4",
     "@nuxtjs/axios": "^5.3.6",
+    "chart.js": "^2.9.3",
+    "jspdf": "^1.5.3",
+    "jspdf-autotable": "^3.2.13",
     "nuxt": "^2.0.0",
-    "nuxt-material-design-icons": "^1.0.4"
+    "nuxt-material-design-icons": "^1.0.4",
+    "vee-validate": "^3.2.5",
+    "vue-chart.js": "^0.2.0",
+    "vue-pdf": "^4.0.8",
+    "vuex-persistedstate": "^2.7.1"
   },
   "devDependencies": {
     "@nuxtjs/vuetify": "^1.0.0",

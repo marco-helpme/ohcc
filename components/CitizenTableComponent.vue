@@ -1,27 +1,28 @@
 <template>
-  <v-data-table
-    :headers="headers"
-    :items="citizens"
-    sort-by="calories"
-    class="elevation-1"
-  >
-    <template v-slot:top>
-      <v-toolbar flat color="white">
-        <v-toolbar-title>My CRUD</v-toolbar-title>
-        <v-divider
-          class="mx-4"
-          inset
-          vertical
-        />
-        <v-spacer />
-        <v-dialog v-model="dialog" max-width="500px">
-          <template v-slot:activator="{ on }">
-            <v-btn v-on="on" color="primary" dark class="mb-2">
-              Nuevo Ciudadano
-            </v-btn>
-          </template>
-          <v-card>
-            <v-form>
+  <div>
+    <v-data-table
+      :headers="headers"
+      :items="citizens"
+      sort-by="calories"
+      class="elevation-1"
+    >
+      <template v-slot:top>
+        <v-toolbar flat color="white">
+          <v-toolbar-title>My CRUD</v-toolbar-title>
+          <v-divider
+            class="mx-4"
+            inset
+            vertical
+          />
+          <v-spacer />
+          <v-dialog v-model="dialog" max-width="500px">
+            <template v-slot:activator="{ on }">
+              <v-btn v-on="on" color="primary" dark class="mb-2">
+                Nuevo Ciudadano
+              </v-btn>
+            </template>
+            <v-card>
+              <v-form>
               <v-card-title>
                 <span class="headline">{{ formTitle }}</span>
               </v-card-title>
@@ -72,36 +73,37 @@
                   Cancel
                 </v-btn>
                 <v-btn @click="createCitizen(citizen)" color="blue darken-1" text>
-                  <nuxt-link to="/citizens"></nuxt-link>
+                  <nuxt-link to="/citizens" />
                   Save
                 </v-btn>
               </v-card-actions>
             </v-form>
-          </v-card>
-        </v-dialog>
-      </v-toolbar>
-    </template>
-    <template v-slot:item.action="{ item }">
-      <v-icon
-        @click="editCitizen(item)"
-        small
-        class="mr-2"
-      >
-        edit
-      </v-icon>
-      <v-icon
-        @click="deleteItem(item)"
-        small
-      >
-        delete
-      </v-icon>
-    </template>
-    <template v-slot:no-data>
-      <v-btn @click="initialize" color="primary">
-        Reset
-      </v-btn>
-    </template>
-  </v-data-table>
+            </v-card>
+          </v-dialog>
+        </v-toolbar>
+      </template>
+      <template v-slot:item.action="{ item }">
+        <v-icon
+          @click="editCitizen(item)"
+          small
+          class="mr-2"
+        >
+          edit
+        </v-icon>
+        <v-icon
+          @click="deleteItem(item)"
+          small
+        >
+          delete
+        </v-icon>
+      </template>
+      <template v-slot:no-data>
+        <v-btn @click="initialize" color="primary">
+          Reset
+        </v-btn>
+      </template>
+    </v-data-table>
+  </div>
 </template>
 
 <script>
@@ -189,6 +191,7 @@ export default {
 
     close () {
       this.dialog = false
+      this.dialog = false
       setTimeout(() => {
         this.editedItem = Object.assign({}, this.defaultItem)
         this.editedIndex = -1
@@ -203,8 +206,22 @@ export default {
       }
       this.close()
     }
-    // async createC () {
-    //   const citizen = await this.$store.dispatch('citizens/createCitizen', this.citizen)
+    // descargarPDF () {
+    //   if (process.browser) {
+    //     // eslint-disable-next-line new-cap
+    //     const doc = new jsPDF()
+    //     doc.autoTable({ html: '#my-table' })
+    //     doc.save('miPDf.pdf')
+    //   }
+    // },
+    // exportPDF () {
+    //   if (process.client) {
+    //     require('jspdf')
+    //     require('jspdf-autotable')
+    //     const doc = new jsPDF()
+    //     doc.autotable(this.headers)
+    //     doc.save('mypdf.pdf')
+    //   }
     // }
   }
 }

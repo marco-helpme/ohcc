@@ -6,7 +6,7 @@ import {
   loadSpecialist,
   loadSpecialists, loadSpecialistUser,
   loadSpecialistUserData,
-  SET_SPECIALISTA_MUTATION,
+  SET_SPECIALISTA_MUTATION, SET_SPECIALISTS_COMPLAINS_MUTATION,
   SET_SPECIALISTS_MUTATION,
   SET_SPECIALISTS_USER_DATA_MUTATION,
   SET_SPECIALISTS_USER_MUTATION
@@ -16,7 +16,8 @@ export const state = () => ({
   specialists: [],
   specialist: [],
   specialistUserData: [],
-  specialistUser: []
+  specialistUser: [],
+  specialists_complains: []
 })
 
 export const mutations = {
@@ -29,11 +30,14 @@ export const mutations = {
   [SET_SPECIALISTS_USER_DATA_MUTATION] (state, specialistUserData) {
     state.specialistUserData = specialistUserData
   },
+  [SET_SPECIALISTS_COMPLAINS_MUTATION] (state, payload) {
+    state.specialists_complains = payload
+  },
   [SET_SPECIALISTS_USER_MUTATION] (state, specialistUser) {
     state.specialistUser = specialistUser
   },
   [ADD_SPECIALISTS_MUTATION] (state, specialist) {
-    state.specialists = state.specialists.concat(specialist)
+    state.specialistUser = state.specialists.concat(specialist)
   },
   [EDIT_SPECIALISTS_MUTATION] (state, payload) {
     state.specialists = [
@@ -47,48 +51,56 @@ export const mutations = {
 }
 
 export const actions = {
-  async [loadSpecialists] (commit) {
+  async [loadSpecialists] ({ commit }) {
     const response = await this.$axios.get('/especialistas')
     const specialists = response.data.data
     commit('SET_SPECIALISTS_MUTATION', specialists)
   },
-  async [loadSpecialist] (commit, specialistId) {
+  async [loadSpecialist] ({ commit }, specialistId) {
     const response = await this.$axios.get(`/especialista/${specialistId}`, specialistId)
     const specialist = response.data.data
     commit('SET_SPECIALISTA_MUTATION', specialist)
   },
-  async [loadSpecialistUserData] (commit, specialistId) {
-    const response = await this.$axios.get(`/especialistas/data-usuario/${specialistId}`, specialistId)
+  async [loadSpecialistUserData] ({ commit }) {
+    const response = await this.$axios.get(`/especialistas/data-usuario`)
     const specialistuserData = response.data.data
     commit('SET_SPECIALISTS_USER_DATA_MUTATION', specialistuserData)
   },
-  async [loadSpecialistUser] (commit, specialistId) {
-    const response = await this.$axios.get(`/especialistas/data-join/${specialistId}`, specialistId)
-    const specialistUser = response.data.data
-    commit('SET_SPECIALISTS_USER_MUTATION', specialistUser)
-  },
-  async [createSpecialist] (commit, specialist) {
-    const response = await this.$axios.post('/directivos/crear-usuario', specialist)
-    const savedSpecialist = response.data.data
-    commit('ADD_SPECIALISTS_MUTATION', savedSpecialist)
-    return savedSpecialist
-  },
-  async [editSpecialist] (commit, specialist) {
+  async [loadSpecialistUser] ({ commit }) {
     try {
-      const response = await this.$axios.put(`directivos/actualizar/${specialist.id_usuario}`, specialist)
-      const newExecutive = response.data
+      const response = await this.$axios.get(`/especialistas/data-join`)
+      const specialistUser = response.data.data
+      commit('SET_SPECIALISTS_USER_MUTATION', specialistUser)
+    } catch (e) {
+      console.log(e)
+    }
+  },
+  async [createSpecialist] ({ commit }, specialist) {
+    try {
+      const response = await this.$axios.post('/especialistas/crear-usuario', specialist)
+      const savedSpecialist = response.data.data_usuario
+      commit('ADD_SPECIALISTS_MUTATION', savedSpecialist)
+      return savedSpecialist
+    } catch (e) {
+      console.log(e)
+    }
+  },
+  async [editSpecialist] ({ commit }, specialist) {
+    try {
+      const response = await this.$axios.put(`/especialistas/actualizar/${specialist.id_usuario}`, specialist)
+      const newExecutive = response.data.data
       commit('EDIT_SPECIALISTS_MUTATION', specialist)
       return newExecutive
     } catch (e) {
       console.log(e.response.data)
     }
   },
-  async [deleteSpecialist] (commit, specialist) {
+  async [deleteSpecialist] ({ commit }, specialist) {
     try {
-      const response = await this.$axios.delete(`/directivos/borrar/${specialist.id_usuario}`)
+      const response = await this.$axios.delete(`/especialistas/borrar/${specialist.id_usuario}`, specialist)
       if (response.status === 200 || response.status === 204) {
         commit('DELETE_SPECIALISTS_MUTATION', specialist.id_usuario)
-        alert('Directivo eliminado con exito')
+        alert('Especialista eliminado con exito')
       }
     } catch (e) {
       console.log(e.response.data)

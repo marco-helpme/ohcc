@@ -1,5 +1,5 @@
 import {
-  ADD_EXECUTIVES_MUTATION,
+  ADD_EXECUTIVE_MUTATION,
   createExecutive, DELETE_EXECUTIVES_MUTATION,
   deleteExecutive, EDIT_EXECUTIVES_MUTATION, editExecutive,
   loadExecutive,
@@ -28,11 +28,11 @@ export const mutations = {
   [SET_EXECUTIVES_USERS_MUTATION] (state, executiveUsers) {
     state.executiveUsers = executiveUsers
   },
-  [ADD_EXECUTIVES_MUTATION] (state, executive) {
+  [ADD_EXECUTIVE_MUTATION] (state, executive) {
     state.executives = state.executives.concat(executive)
   },
-  [DELETE_EXECUTIVES_MUTATION] (state, executiveId) {
-    state.executives = state.executives.filter(v => v.id_usuario !== executiveId)
+  [DELETE_EXECUTIVES_MUTATION] (state, executive) {
+    state.executives = state.executives.filter(v => v.id_usuario !== executive.id_usuario)
   },
   [EDIT_EXECUTIVES_MUTATION] (state, payload) {
     state.executives = [
@@ -62,7 +62,7 @@ export const actions = {
    * Obtener todos los directivos (datos del usuario)
    */
   async [loadExecutivesUserData] ({ commit }) {
-    const response = await this.$axios.get(`directivos/data-usuario`)
+    const response = await this.$axios.get('directivos/data-usuario')
     const executiveUserData = response.data.data
     commit('SET_EXECUTIVES_USERS_DATA_MUTATION', executiveUserData)
   },
@@ -79,7 +79,7 @@ export const actions = {
    */
   async [createExecutive] ({ commit }, executive) {
     const response = await this.$axios.post('/directivos/crear-usuario', executive)
-    const savedExecutive = response.data.data
+    const savedExecutive = response.data.data_usuario
     commit('ADD_EXECUTIVE_MUTATION', savedExecutive)
     return savedExecutive
   },
@@ -90,7 +90,7 @@ export const actions = {
     try {
       const response = await this.$axios.put(`directivos/actualizar/${executive.id_usuario}`, executive)
       const newExecutive = response.data
-      commit('EDIT_USER_MUTATION', executive)
+      commit('EDIT_EXECUTIVES_MUTATION', executive)
       return newExecutive
     } catch (e) {
       console.log(e.response.data)
@@ -101,9 +101,9 @@ export const actions = {
    */
   async [deleteExecutive] ({ commit }, executive) {
     try {
-      const response = await this.$axios.delete(`/directivos/borrar/${executive.id_usuario}`)
+      const response = await this.$axios.delete(`/directivos/borrar/${executive.id_usuario}`, executive)
       if (response.status === 200 || response.status === 204) {
-        commit('DELETE_EXECUTIVES_MUTATION', executive.id_usuario)
+        commit('DELETE_EXECUTIVES_MUTATION', executive)
         alert('Directivo eliminado con exito')
       }
     } catch (e) {

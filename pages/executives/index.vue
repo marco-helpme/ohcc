@@ -1,6 +1,5 @@
 <template>
   <div>
-    <h1>Pagina de Ejecutivos</h1>
     <ExecutiveTableComponent></ExecutiveTableComponent>
   </div>
 </template>
@@ -9,6 +8,7 @@
 import ExecutiveTableComponent from '../../components/ExecutiveTableComponent'
 export default {
   name: 'Index',
+  layout: 'principal',
   components: {
     ExecutiveTableComponent
   }

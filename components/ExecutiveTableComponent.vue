@@ -7,65 +7,94 @@
   >
     <template v-slot:top>
       <v-toolbar flat color="white">
-        <v-toolbar-title>My CRUD</v-toolbar-title>
+        <v-toolbar-title style="color: #464646">Directivos</v-toolbar-title>
         <v-divider
           class="mx-4"
           inset
           vertical
         />
         <v-spacer />
-        <v-dialog v-model="dialog" max-width="500px">
+        <v-dialog v-model="dialog" max-width="800px">
           <template v-slot:activator="{ on }">
-            <v-btn v-on="on" color="primary" dark class="mb-2">
+            <v-btn @click="exportar()" color="primary" dark class="mb-2" style="margin: 10px">
+              Exportar a PDF
+            </v-btn>
+            <v-btn v-on="on" color="primary" dark class="mb-2" style="margin: 10px">
               Nuevo Directivo
             </v-btn>
           </template>
-          <v-card>
-            <v-card-title>
-              <span class="headline">{{ formTitle }}</span>
-            </v-card-title>
+          <validation-observer v-slot="{ invalid }">
+            <v-card>
+              <v-card-title>
+                <span class="headline">{{ formTitle }}</span>
+              </v-card-title>
 
-            <v-card-text>
-              <v-container>
-                <v-row>
-                  <v-col cols="12" sm="6" md="4">
-                    <v-text-field v-model="editedItem.nombre" label="Nombre" />
-                  </v-col>
-                  <v-col cols="12" sm="6" md="4">
-                    <v-text-field v-model="editedItem.apellido_1" label="Primer Apellido" />
-                  </v-col>
-                  <v-col cols="12" sm="6" md="4">
-                    <v-text-field v-model="editedItem.apellido_2" label="Segundo Apellido" />
-                  </v-col>
-                  <v-col cols="12" sm="6" md="4">
-                    <v-text-field v-model="editedItem.nombre_usuario" label="Nombre de Usuario" />
-                  </v-col>
-                  <v-col cols="12" sm="6" md="4">
-                    <v-text-field v-model="editedItem.password" label="Contraseña" type="password" />
-                  </v-col>
-                  <v-col cols="12" sm="6" md="4">
-                    <v-text-field v-model="editedItem.id_rol" label="Rol" />
-                  </v-col>
-                  <v-col cols="12" sm="6" md="4">
-                    <v-text-field v-model="editedItem.id_directivo" label="Id Directivo" />
-                  </v-col>
-                  <v-col cols="12" sm="6" md="4">
-                    <v-text-field v-model="editedItem.cargo" label="Cargo" />
-                  </v-col>
-                </v-row>
-              </v-container>
-            </v-card-text>
+              <v-card-text>
+                <v-form>
+                  <v-container>
+                    <v-row>
+                      <v-col cols="12">
+                        <validation-provider v-slot="{ errors }" rules="alpha|required|max:15|min:2">
+                          <v-text-field id="nombre" v-model="editedItem.nombre" label="Nombre" />
+                          <span>{{ errors[0] }}</span>
+                        </validation-provider>
+                      </v-col>
+                      <v-col cols="12">
+                        <validation-provider v-slot="{ errors }" rules="alpha|required|max:15|min:2">
+                          <v-text-field v-model="editedItem.apellido_1" label="Primer Apellido" />
+                          <span>{{ errors[0] }}</span>
+                        </validation-provider>
+                      </v-col>
+                      <v-col cols="12">
+                        <validation-provider v-slot="{ errors }" rules="alpha|required|max:15|min:2">
+                          <v-text-field v-model="editedItem.apellido_2" label="Segundo Apellido" />
+                          <span>{{ errors[0] }}</span>
+                        </validation-provider>
+                      </v-col>
+                      <v-col cols="12">
+                        <validation-provider v-slot="{ errors }" rules="required|alpha_num|max:10|min:3">
+                          <v-text-field v-model="editedItem.nombre_usuario" label="Nombre de Usuario" />
+                          <span>{{ errors[0] }}</span>
+                        </validation-provider>
+                      </v-col>
+                      <v-col cols="12">
+                        <validation-provider v-slot="{ errors }" rules="required">
+                          <v-select
+                            v-model="editedItem.cargo"
+                            :items="cargos"
+                            label="Cargo"
+                          />
+                          <span>{{ errors[0] }}</span>
+                        </validation-provider>
+                      </v-col>
+                      <v-col cols="12">
+                        <validation-provider v-slot="{ errors }" rules="required|max:15|min:6" vid="confirmation">
+                          <v-text-field v-model="editedItem.password" label="Contraseña" type="password" />
+                          <span>{{ errors[0] }}</span>
+                        </validation-provider>
+                      </v-col>
+                      <v-col cols="12">
+                        <validation-provider v-slot="{ errors }" rules="required|confirmed:confirmation">
+                          <v-text-field v-model="confirmation" type="password" label="Repita la Contraseña" />
+                          <span>{{ errors[0] }}</span>
+                        </validation-provider>
+                      </v-col>
+                    </v-row>
+                  </v-container>
+                </v-form>
+              </v-card-text>
 
-            <v-card-actions>
-              <v-spacer />
-              <v-btn @click="close" color="blue darken-1" text>
-                Cancel
-              </v-btn>
-              <v-btn @click="save(editedItem)" color="blue darken-1" text>
-                Save
-              </v-btn>
-            </v-card-actions>
-          </v-card>
+              <v-card-actions>
+                <v-spacer />
+                <v-btn @click="close" color="blue darken-1" text>
+                  Cancelar
+                </v-btn>
+                <v-btn @click="save(editedItem)" :disabled="invalid" color="blue darken-1" text>
+                  Enviar
+                </v-btn>
+              </v-card-actions>
+            </v-card>
+          </validation-observer>
         </v-dialog>
       </v-toolbar>
     </template>
@@ -78,23 +107,23 @@
         edit
       </v-icon>
       <v-icon
+        v-if="item.id_directivo != user.id_usuario"
         @click="deleteItem(item)"
         small
       >
         delete
       </v-icon>
     </template>
-    <template v-slot:no-data>
-      <v-btn @click="initialize" color="primary">
-        Reset
-      </v-btn>
-    </template>
   </v-data-table>
 </template>
 <script>
 import { mapState, mapActions } from 'vuex'
+import { ValidationProvider, ValidationObserver } from 'vee-validate'
+
 export default {
+  components: { ValidationProvider, ValidationObserver },
   data: () => ({
+    confirmation: '',
     dialog: false,
     headers: [
       {
@@ -103,14 +132,11 @@ export default {
         sortable: false,
         value: 'nombre'
       },
-      { text: 'Primer Apellido', value: 'apellido_1' },
-      { text: 'Segundo Apellido', value: 'apellido_2' },
-      { text: 'Nombre de Usuario', value: 'nombre_usuario' },
-      { text: 'Contraseña', value: 'password' },
-      { text: 'Rol', value: 'id_rol' },
-      { text: 'Directivo', value: 'id_directivo' },
-      { text: 'Cargo', value: 'cargo' },
-      { text: 'Actions', value: 'action', sortable: false }
+      { text: 'Primer Apellido', value: 'apellido_1', align: 'center' },
+      { text: 'Segundo Apellido', value: 'apellido_2', align: 'center' },
+      { text: 'Nombre de Usuario', value: 'nombre_usuario', align: 'center' },
+      { text: 'Cargo', value: 'cargo', align: 'center' },
+      { text: 'Actions', value: 'action', sortable: false, align: 'center' }
     ],
     // users: [],
     editedIndex: -1,
@@ -133,15 +159,19 @@ export default {
       id_rol: 1,
       id_directivo: null,
       cargo: ''
-    }
+    },
+    cargos: []
   }),
-
   computed: {
     formTitle () {
-      return this.editedIndex === -1 ? 'Nuevo Usuario' : 'Editar Usuario'
+      return this.editedIndex === -1 ? 'Nuevo Directivo' : 'Editar Directivo'
     },
     ...mapState('executives', [
-      'executiveUsers'
+      'executiveUsers',
+      'executives'
+    ]),
+    ...mapState('users', [
+      'user'
     ])
   },
   watch: {
@@ -151,15 +181,15 @@ export default {
   },
 
   created () {
-
+    this.llenarcargos()
   },
 
   methods: {
-    ...mapActions('users', [
-      'createUser',
-      'deleteUser',
-      'editUser',
-      'loadUsers'
+    ...mapActions('executives', [
+      'createExecutive',
+      'editExecutive',
+      'deleteExecutive',
+      'loadExecutivesUsers'
     ]),
     editItem (item) {
       this.editedIndex = this.executiveUsers.indexOf(item)
@@ -169,7 +199,13 @@ export default {
 
     deleteItem (item) {
       // const index = this.users.indexOf(item)
-      confirm('Are you sure you want to delete this item?') && this.deleteUser(item)
+      confirm('Are you sure you want to delete this item?') && this.deleteExecutive(item)
+    },
+
+    llenarcargos () {
+      for (let i = 0; i < this.executives.length; i++) {
+        this.cargos.push(this.executives[i].cargo)
+      }
     },
 
     close () {
@@ -181,18 +217,23 @@ export default {
     },
 
     refrech () {
-      this.loadUsers()
+      this.loadExecutivesUsers()
     },
 
     save () {
       if (this.editedIndex > -1) {
         // Object.assign(this.users[this.editedIndex], this.editedItem)
-        this.editUser(this.editedItem)
+        this.editExecutive(this.editedItem)
       } else {
         // this.users.push(this.editedItem)
-        this.createUser(this.editedItem)
+        this.createExecutive(this.editedItem)
       }
       this.close()
+    },
+    exportar () {
+      if (process.browser) {
+        window.open('http://localhost/public/api/v1/pdfdirectivo', '_blank')
+      }
     }
   }
 }

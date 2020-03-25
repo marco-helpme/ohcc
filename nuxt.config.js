@@ -32,6 +32,10 @@ export default {
   ** Plugins to load before mounting the App
   */
   plugins: [
+    { src: '~/plugins/localStorage.js', ssr: false },
+    { src: '~/plugins/vue-pdf.js', ssr: false },
+    { src: '~/plugins/vue-chartjs.js', ssr: false },
+    '~/plugins/vee-validate'
   ],
   /*
   ** Nuxt.js dev-modules
@@ -47,8 +51,8 @@ export default {
   modules: [
     // Doc: https://axios.nuxtjs.org/usage
     '@nuxtjs/axios',
-    'nuxt-material-design-icons',
-    '@nuxtjs/auth'
+    'nuxt-material-design-icons'
+    // '@nuxtjs/auth'
   ],
   /*
   ** Axios module configuration
@@ -82,10 +86,18 @@ export default {
   ** Build configuration
   */
   build: {
+    transpile: ['vee-validate/dist/rules'],
     /*
     ** You can extend webpack config here
     */
     extend (config, ctx) {
+      config.output.globalObject = 'this'
+      config.module.rules.push(
+        {
+          test: /\.pdf$/,
+          loader: 'url-loader'
+        }
+      )
     }
   }
 }

@@ -13,6 +13,7 @@ import { mapState, mapActions } from 'vuex'
 import CitizenTableComponent from '../../components/CitizenTableComponent'
 export default {
   name: 'Index',
+  layout: 'principal',
   components: {
     CitizenTableComponent
   },
