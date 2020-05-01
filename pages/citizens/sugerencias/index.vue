@@ -141,6 +141,7 @@ export default {
     this.loadRquestUser(this.request)
   },
   created () {
+    this.loadRquestUser(this.request)
   },
   computed: {
     formTitle () {

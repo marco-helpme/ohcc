@@ -137,10 +137,10 @@ export default {
   layout: 'principal',
   components: { ValidationProvider, ValidationObserver },
   mounted () {
-    this.setInfo(this.user.id_usuario)
-    this.loadRquestUser(this.request)
   },
   created () {
+    this.setInfo(this.user.id_usuario)
+    this.loadRquestUser(this.request)
   },
   computed: {
     formTitle () {

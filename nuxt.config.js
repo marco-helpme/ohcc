@@ -34,6 +34,7 @@ export default {
   plugins: [
     { src: '~/plugins/localStorage.js', ssr: false },
     { src: '~/plugins/vue-pdf.js', ssr: false },
+    { src: '~/plugins/moment.js', ssr: false },
     { src: '~/plugins/vue-chartjs.js', ssr: false },
     '~/plugins/vee-validate'
   ],
@@ -59,7 +60,7 @@ export default {
   ** See https://axios.nuxtjs.org/options
   */
   axios: {
-    baseURL: 'http://localhost/public//api/v1'
+    baseURL: 'http://api.test/api/v1'
   },
   /*
   ** vuetify module configuration

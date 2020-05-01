@@ -17,6 +17,7 @@
     "chart.js": "^2.9.3",
     "jspdf": "^1.5.3",
     "jspdf-autotable": "^3.2.13",
+    "moment": "^2.25.1",
     "nuxt": "^2.0.0",
     "nuxt-material-design-icons": "^1.0.4",
     "vee-validate": "^3.2.5",
