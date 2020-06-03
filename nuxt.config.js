@@ -14,9 +14,10 @@ export default {
       { hid: 'description', name: 'description', content: process.env.npm_package_description || '' }
     ],
     link: [
-      { rel: 'icon', type: 'image/x-icon', href: '/favicon.ico' },
-      { rel: 'stylesheet', href: 'https://fonts.googleapis.com/css?family=Roboto:100,300,400,500,700,900' },
-      { rel: 'stylesheet', href: 'https://cdn.jsdelivr.net/npm/@mdi/font@4.x/css/materialdesignicons.min.css' }
+      { rel: 'icon', type: 'image/x-icon', href: '/faviconohcc.png' },
+      // { rel: 'stylesheet', href: 'https://fonts.googleapis.com/css?family=Roboto:100,300,400,500,700,900' },
+      // { rel: 'stylesheet', url: '@/assets/css/main.css' },
+      { rel: 'stylesheet', href: 'https://cdn.jsdelivr.net/npm/@mdi/fon t@4.x/css/materialdesignicons.min.css' }
     ]
   },
   /*
@@ -27,11 +28,14 @@ export default {
   ** Global CSS
   */
   css: [
+    '@/assets/css/main.css',
+    '@/assets/fonts/lucida/style.css'
   ],
   /*
   ** Plugins to load before mounting the App
   */
   plugins: [
+    { src: '~/plugins/vue-fb-customer-chat.js', ssr: false },
     { src: '~/plugins/localStorage.js', ssr: false },
     { src: '~/plugins/vue-pdf.js', ssr: false },
     { src: '~/plugins/moment.js', ssr: false },
@@ -69,8 +73,9 @@ export default {
   vuetify: {
     customVariables: ['~/assets/variables.scss'],
     theme: {
-      dark: true,
+      dark: false,
       themes: {
+        disable: true,
         dark: {
           primary: colors.blue.darken2,
           accent: colors.grey.darken3,

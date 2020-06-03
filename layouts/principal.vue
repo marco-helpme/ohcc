@@ -1,13 +1,12 @@
 <template>
   <v-app id="inspire">
-    <navigation-drawer-component v-if="user != null" v-bind:idrolUsuario="user.id_rol" />
     <v-app-bar
       app
-      color="indigo"
-      dark
+      style="background-color: #8d0000; border-color: #8d0000"
     >
-      <v-toolbar-title>
-        Orientación y Consulta
+      <v-app-bar-nav-icon @click.stop="drawer = !drawer" />
+      <v-toolbar-title class="blank">
+       <h1>Orientación y Consulta</h1>
       </v-toolbar-title>
       <v-spacer />
       <v-toolbar-items>
@@ -24,6 +23,7 @@
                   color="white"
                   text
                   dark
+                  class="btn_salir"
                 >
                   Entrar
                 </v-btn>
@@ -31,7 +31,7 @@
 
               <v-card class="elevation-12">
                 <v-toolbar
-                  color="primary"
+                  color="#8d0000"
                   dark
                   flat
                 >
@@ -61,7 +61,7 @@
                   <v-spacer />
                   <v-btn
                     @click="loginUser(usuario)"
-                    color="primary"
+                    color="#8d0000"
                     dark
                   >
                     Entrar
@@ -82,6 +82,7 @@
                   color="white"
                   text
                   dark
+                  class="btn_salir"
                 >
                   Registrarse
                 </v-btn>
@@ -125,12 +126,12 @@
                                 <span>{{ errors[0] }}</span>
                               </validation-provider>
                             </v-col>
-<!--                            <v-col cols="12">-->
-<!--                              <validation-provider v-slot="{ errors }" rules="numeric|ci">-->
-<!--                                <v-text-field v-model="editedItem.ci" label="Ci" />-->
-<!--                                <span>{{ errors[0] }}</span>-->
-<!--                              </validation-provider>-->
-<!--                            </v-col>-->
+                            <!--                            <v-col cols="12">-->
+                            <!--                              <validation-provider v-slot="{ errors }" rules="numeric|ci">-->
+                            <!--                                <v-text-field v-model="editedItem.ci" label="Ci" />-->
+                            <!--                                <span>{{ errors[0] }}</span>-->
+                            <!--                              </validation-provider>-->
+                            <!--                            </v-col>-->
                             <v-col cols="12">
                               <validation-provider v-slot="{ errors }" rules="max:80|min:30">
                                 <v-text-field v-model="editedItem.dir_particular" label="Dirección Particular" />
@@ -188,6 +189,7 @@
               color="white"
               text
               dark
+              class="btn_salir"
               to="/"
             >
               Salir
@@ -196,10 +198,13 @@
         </template>
       </v-toolbar-items>
     </v-app-bar>
+    <navigation-drawer-component v-if="user != null && drawer === true" v-bind:idrolUsuario="user.id_rol" v-bind:nombre="user.nombre" />
 
     <v-content>
       <v-container
         fluid
+        class="fondo"
+        style="color: black"
       >
         <v-row
           align="center"
@@ -212,8 +217,8 @@
       </v-container>
     </v-content>
     <v-footer
-      color="indigo"
       app
+      style="background-color: #8d0000; border-color: #8d0000"
     >
       <span class="white--text">&copy; 2019</span>
     </v-footer>
@@ -278,7 +283,7 @@ export default {
     },
     dialog: false,
     dialog2: false,
-    drawer: null,
+    drawer: false,
     items: [
       {
         icon: 'mdi-apps',
@@ -344,4 +349,14 @@ export default {
 </script>
 
 <style lang="css">
+  .paleta {
+    background-color: #8d0000;
+    border-color: #8d0000;
+  }
+  .btn_salir {
+    font-family: Verdana,serif;
+    margin-top: 10px;
+    background-color: #cc5229;
+    margin-right: 5px;
+  }
 </style>

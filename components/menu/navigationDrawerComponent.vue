@@ -3,6 +3,31 @@
     v-model="drawer"
     app
   >
+    <div class="rojo_desaturado">
+      <v-list-item>
+        <v-list-item-content>
+          <v-row>
+            <v-col>
+              <v-list-item-title class="headline blank">
+                {{ nombre }}
+              </v-list-item-title>
+<!--              <v-list-item-subtitle>-->
+<!--                <p class="blank">-->
+<!--                  subtext-->
+<!--                </p>-->
+<!--              </v-list-item-subtitle>-->
+            </v-col>
+            <v-col>
+              <v-list-item-title class="headline blank">
+                <img src="/faviconohcc.png" alt="logo" class="logo">
+              </v-list-item-title>
+            </v-col>
+          </v-row>
+        </v-list-item-content>
+      </v-list-item>
+    </div>
+
+    <v-divider />
     <v-list dense>
       <v-list-item
         v-if="idrolUsuario === '3'"
@@ -13,7 +38,7 @@
         exact
       >
         <v-list-item-action>
-          <v-icon>{{ item.icon }}</v-icon>
+          <v-icon color="#cc5229">{{ item.icon }}</v-icon>
         </v-list-item-action>
         <v-list-item-content>
           <v-list-item-title v-text="item.title" />
@@ -61,24 +86,48 @@ export default {
     idrolUsuario: {
       type: String,
       default: '0'
+    },
+    nombre: {
+      type: String,
+      default: '0'
     }
   },
   data: () => ({
     drawer: null,
     citizensItems: [
       {
-        icon: 'mdi-apps',
+        icon: 'mdi-bookmark',
         title: 'Inicio',
         to: '/'
       },
       {
-        icon: 'mdi-account',
+        icon: 'mdi-thought-bubble',
         title: 'Sugerencias',
         to: '/citizens/sugerencias'
       },
       {
         icon: 'mdi-chart-bubble',
         title: 'Quejas',
+        to: '/citizens/quejas'
+      },
+      {
+        icon: 'mdi-magnify',
+        title: 'Glosario',
+        to: '/public/glosario'
+      },
+      {
+        icon: 'mdi-book-multiple',
+        title: 'Libros y Regulaciones',
+        to: '/citizens/quejas'
+      },
+      {
+        icon: 'mdi-map',
+        title: 'Mapa',
+        to: '/citizens/quejas'
+      },
+      {
+        icon: 'mdi-image-multiple',
+        title: 'Galería',
         to: '/citizens/quejas'
       }],
     executivesItems: [
@@ -112,6 +161,13 @@ export default {
 }
 </script>
 
-<style scoped>
-
+<style scoped lang="css">
+/*.blank {*/
+/*  color: #f1f1f1;*/
+/*}*/
+  .logo {
+    width: 75px;
+    height: 75px;
+    float: right;
+  }
 </style>

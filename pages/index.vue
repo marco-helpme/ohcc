@@ -15,7 +15,7 @@
         >
           <v-flex xs12 sm4 class="my-4">
             <div class="text-center">
-              <h2 class="headline">
+              <h2 class="font">
                 Quienes Atienden a la Población
               </h2>
               <span class="subheading">
@@ -160,8 +160,7 @@
       </section>
 
       <section>
-        <v-parallax src="rocas.jpg" height="380">
-        </v-parallax>
+        <v-parallax src="rocas.jpg" height="380" />
       </section>
 
       <section>
@@ -170,17 +169,17 @@
             <v-flex xs12 sm4>
               <v-card flat class="transparent">
                 <v-card-title primary-title class="layout justify-center">
-                  <div class="headline">
-                    Oficina de Orientación y Consulta
+                  <div class="">
+                    <h3>Oficina de Orientación y Consulta</h3>
                   </div>
                 </v-card-title>
                 <v-card-text>
-                  Contribuimos a preservar el Patrimonio Histórico Cultural camagüeyano y los rasgos de su identidad, logrando la participación activa y el disfrute de sus moradores. Constituimos un proyecto sustentable, que involucra otras instituciones y a la comunidad. Contamos con un proceso inversionista confiable y está consolidada una imagen propia que nos identifica como institución vinculada a los distintos públicos. Disponemos de recursos humanos que garantizan la Misión de la OHCC
+                  <p>Contribuimos a preservar el Patrimonio Histórico Cultural camagüeyano y los rasgos de su identidad, logrando la participación activa y el disfrute de sus moradores. Constituimos un proyecto sustentable, que involucra otras instituciones y a la comunidad. Contamos con un proceso inversionista confiable y está consolidada una imagen propia que nos identifica como institución vinculada a los distintos públicos. Disponemos de recursos humanos que garantizan la Misión de la OHCC</p>
                 </v-card-text>
               </v-card>
             </v-flex>
             <v-flex xs12 sm4 offset-sm1>
-              <v-card flat class="transparent">
+              <v-card flat class="transparent" color="black">
                 <v-card-title primary-title class="layout justify-center">
                   <div class="headline">
                     Contactenos
@@ -206,6 +205,9 @@
           </v-layout>
         </v-container>
       </section>
+
+      <template>
+      </template>
 
       <v-footer
         color="primary lighten-1"
@@ -238,10 +240,8 @@
 </template>
 
 <script>
-
 export default {
   layout: 'principal',
-  components: {},
   data: () => ({
     links: [
       'Home',
@@ -251,6 +251,21 @@ export default {
       'Blog',
       'Contact Us'
     ]
-  })
+  }),
+  mounted () {
+    this.$fbCustomerChat.setOptions({
+      theme_color: '#41B883'
+    })
+  }
 }
 </script>
+
+<style lang="css">
+  .font {
+    font-size: 1.5rem !important;
+    font-weight: 400;
+    line-height: 2rem;
+    letter-spacing: normal !important;
+    font-family: Lucida Bright,Georgia,serif;
+  }
+</style>
