@@ -1,4 +1,4 @@
-<template>
+<template id="my-table">
   <v-container>
     <v-row>
       <v-dialog v-model="dialog" persistent max-width="600px">
@@ -20,9 +20,6 @@
         </template>
         <validation-observer v-slot="{ invalid }">
           <v-card>
-            <v-card-title>
-              <span class="headline">{{ formTitle }}</span>
-            </v-card-title>
             <v-card-text>
               <v-container>
                 <v-row>
@@ -36,7 +33,7 @@
                         filled
                         shaped
                         required
-                        class="primary--text"
+                        color="#8d0000"
                       />
                       <span>{{ errors[0] }}</span>
                     </validation-provider>
@@ -46,10 +43,10 @@
             </v-card-text>
             <v-card-actions>
               <v-spacer />
-              <v-btn @click="dialog = false" color="blue darken-1" text>
+              <v-btn @click="dialog = false" color="red" dark>
                 Cerrar
               </v-btn>
-              <v-btn :disabled="invalid" @click="save(sugerencia), dialog = false" color="blue darken-1" text>
+              <v-btn :disabled="invalid" @click="crearandAct(), dialog = false" color="blue darken-1" dark>
                 Enviar
               </v-btn>
             </v-card-actions>
@@ -58,180 +55,138 @@
       </v-dialog>
     </v-row>
     <v-row
-      v-for="(item, i) in requests_user"
-      :key="i"
+      v-for="item in requests_user"
+      :key="item.id_solicitud"
     >
-      <v-col
-        cols="12"
-        class="mx_auto"
-      >
-        <v-card
-          class="mx-auto"
-          color="#cc5229"
-          dark
-          max-width="400"
+      <v-col>
+        <v-hover
+          v-slot:default="{ hover }"
+          open-delay="200"
         >
-          <v-card-title>
-            <span class="title font-weight-light"># {{ item.id_solicitud }}</span>
-            <v-row
-              align="center"
-              justify="end"
-            >
+          <v-card
+            :elevation="hover ? 16 : 2"
+            class="glossary"
+            color="white"
+          >
+            <v-card-title>
+              <v-row
+                align="center"
+              >
+                <v-col
+                  align="left"
+                >
+                  <span class="title font-weight-light"># {{ item.id_solicitud }}</span>
+                </v-col>
+              </v-row>
               <v-icon
                 @click="deleteItem(item)"
-                small
+                color="red"
               >
                 delete
               </v-icon>
-            </v-row>
-          </v-card-title>
-
-          <v-card-text
-            v-show="hide"
-            v-if="item.descripcion.length > 100"
-            v-slot:activator="{ on }"
-            class="headline font-weight-bold"
-          >
-            {{ item.descripcion.substr(0, 100) }}...
-            <v-btn
-              v-on="on"
-              @click="show = !show, hide =! hide"
-              icon
-            >
-              <v-icon>{{ show ? 'mdi-chevron-up' : 'mdi-chevron-down' }}</v-icon>
-            </v-btn>
-          </v-card-text>
-          <v-card-text v-else class="headline font-weight-bold">
-            {{ item.descripcion }}
-          </v-card-text>
-          <v-expand-transition>
-            <div v-show="show">
-              <v-card-text class="headline font-weight-bold">
+            </v-card-title>
+            <v-card-text class="headline font-weight-bold" style="float: left">
+              <p class="text text-left">
                 {{ item.descripcion }}
-                <v-btn
-                  @click="show = !show, hide =! hide"
-                  icon
-                >
-                  <v-icon>{{ show ? 'mdi-chevron-up' : 'mdi-chevron-down' }}</v-icon>
-                </v-btn>
-              </v-card-text>
-            </div>
-          </v-expand-transition>
-
-          <v-card-actions>
-            <v-list-item class="grow">
-              <v-list-item-content>
-                <v-list-item-title>{{ item.fecha_creada }}</v-list-item-title>
-              </v-list-item-content>
-              <v-row
-                align="center"
-                justify="end"
-              >
-                <span v-if="item.id_estado == 1" class="subheading" style="padding-right: 5px">Pendiente</span>
-              </v-row>
-            </v-list-item>
-          </v-card-actions>
-        </v-card>
+              </p>
+              <hr style="" class="line">
+            </v-card-text>
+            <v-card-actions>
+              <estado v-bind:estado="item.id_estado" v-bind:fecha="item.fecha_creada"/>
+            </v-card-actions>
+          </v-card>
+        </v-hover>
       </v-col>
     </v-row>
+    <v-snackbar
+      v-model="snackbar"
+      color="#009688"
+      top
+      small
+      class="align"
+    >
+      <p>{{mensaje}}</p>
+    </v-snackbar>
   </v-container>
 </template>
 
 <script>
 import { mapState, mapActions } from 'vuex'
-// import html2canvas from 'html2canvas'
+import moment from 'moment'
 import { ValidationProvider, ValidationObserver } from 'vee-validate'
-
+import Estado from '../../../components/estado'
 export default {
   name: 'Index',
   layout: 'principal',
-  components: { ValidationProvider, ValidationObserver },
-  mounted () {
-    this.setInfo(this.user.id_usuario)
-    this.loadRquestUser(this.request)
+  components: { Estado, ValidationProvider, ValidationObserver },
+  data () {
+    return {
+      snackbar: false,
+      text: 'My timeout is set to 2000.',
+      timeout: 2000,
+      dialog: false,
+      solicitudes: '',
+      request: {
+        id_usuario: 95,
+        id_tipo_solicitud: 6
+      },
+      date: moment().format('YYYY-MM-DD'),
+      sugerencia: {
+        fecha_creada: moment().format('YYYY-MM-DD'),
+        descripcion: '',
+        id_usuario: '',
+        id_tipo_solicitud: 6
+      }
+    }
+  },
+  computed: {
+    ...mapState('suggestions', [
+      'requests_user',
+      'mensaje'
+    ]),
+    ...mapState('users', [
+      'user'
+    ])
   },
   created () {
     this.loadRquestUser(this.request)
   },
-  computed: {
-    formTitle () {
-      return this.editedIndex === -1 ? 'Nueva Sugerencia' : 'Editar Sugerencia'
-    },
-    ...mapState('users', [
-      'user'
-    ]),
-    ...mapState('suggestions', [
-      'requests_user'
-    ])
+  mounted () {
   },
-  data: () => ({
-    hide: true,
-    show: false,
-    editedIndex: -1,
-    dialog: false,
-    dialog2: false,
-    items: {
-      descripcion: '',
-      evaluacion: '',
-      fecha_creada: '',
-      fecha_iniciada: null,
-      fecha_respuesta: null,
-      respuesta: null
-    },
-    request: {
-      id_usuario: '',
-      id_tipo_solicitud: ''
-    },
-    sugerencia: {
-      fecha_creada: '',
-      descripcion: '',
-      id_usuario: '',
-      id_tipo_solicitud: ''
-    },
-    defaultsugerencia: {
-      fecha_creada: '',
-      descripcion: '',
-      id_usuario: '',
-      id_tipo_solicitud: ''
-    }
-  }),
   methods: {
     ...mapActions('suggestions', [
       'loadRquestUser',
       'createRequest',
       'deleteRequest'
     ]),
-    nuevaSugerencia (sugerencia) {
-      this.createRequest(sugerencia)
+    filluserId () {
+      this.sugerencia.id_usuario = this.user.id_usuario
     },
-    setInfo (userId) {
-      this.sugerencia.id_usuario = userId
-      this.sugerencia.id_tipo_solicitud = 6
-      this.sugerencia.fecha_creada = new Date()
-      this.request.id_usuario = userId
-      this.request.id_tipo_solicitud = 6
+    async deleteItem (item) {
+      await this.deleteRequest(item)
+      this.snackbar = true
       this.loadRquestUser(this.request)
     },
-    save () {
-      this.createRequest(this.sugerencia)
-      this.close()
+    async crearandAct () {
+      await this.filluserId()
+      await this.createRequest(this.sugerencia)
+      this.snackbar = true
+      this.loadRquestUser(this.request)
     },
-    close () {
-      this.dialog = false
-      setTimeout(() => {
-        this.sugerencia = Object.assign({}, this.defaultsugerencia)
-        this.editedIndex = -1
-      }, 300)
-    },
-    deleteItem (item) {
-      // const index = this.users.indexOf(item)
-      confirm('Are you sure you want to delete this item?') && this.deleteRequest(item)
+    yyyymmdd () {
+      const mm = this.getMonth() + 1 // getMonth() is zero-based
+      const dd = this.getDate()
+
+      return [this.getFullYear(),
+        (mm > 9 ? '' : '0') + mm,
+        (dd > 9 ? '' : '0') + dd
+      ].join('')
     }
   }
 }
 </script>
 
-<style lang="css">
+<style lang="css" scoped>
   .glossary {
     border-width: 3px !important;
     border-color: #8d0000 !important;
@@ -250,5 +205,13 @@ export default {
     font-size: 18px !important;
     font-family: Constantia, "Lucida Bright", Lucidabright, "Lucida Serif", Lucida, "DejaVu Serif", "Bitstream Vera Serif", "Liberation Serif", Georgia, serif !important;
     color: #464646 !important;
+  }
+  .v-application .primary--text {
+    color: #8d0000 !important;
+    caret-color: #8d0000 !important;
+  }
+  .v-label.primary--text {
+    color: #8d0000 !important;
+    caret-color: #8d0000 !important;
   }
 </style>

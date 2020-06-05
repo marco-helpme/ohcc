@@ -69,14 +69,18 @@ pre {
 .v-card__title {
   justify-content: center;
 }
-.v-application .primary--text {
-  color: #8d0000 !important;
-  caret-color: #8d0000 !important;
-}
+
 .theme--light.v-card {
   background-color: #F7F1C6;
   color: rgba(0, 0, 0, 0.87);
   border: #8d0000;
   border-color: #8d0000;
   border-radius: 10px;
+}
+
+.btn_salir {
+  font-family: Verdana,serif;
+  margin-top: 10px;
+  background-color: #cc5229;
+  margin-right: 5px;
 }

@@ -11,11 +11,11 @@
               <v-list-item-title class="headline blank">
                 {{ nombre }}
               </v-list-item-title>
-<!--              <v-list-item-subtitle>-->
-<!--                <p class="blank">-->
-<!--                  subtext-->
-<!--                </p>-->
-<!--              </v-list-item-subtitle>-->
+              <!--              <v-list-item-subtitle>-->
+              <!--                <p class="blank">-->
+              <!--                  subtext-->
+              <!--                </p>-->
+              <!--              </v-list-item-subtitle>-->
             </v-col>
             <v-col>
               <v-list-item-title class="headline blank">
@@ -30,6 +30,23 @@
     <v-divider />
     <v-list dense>
       <v-list-item
+        v-if="idrolUsuario === '0'"
+        v-for="(item, i) in publicitems"
+        :key="i"
+        :to="item.to"
+        router
+        exact
+      >
+        <v-list-item-action>
+          <v-icon color="#cc5229">
+            {{ item.icon }}
+          </v-icon>
+        </v-list-item-action>
+        <v-list-item-content>
+          <v-list-item-title v-text="item.title" />
+        </v-list-item-content>
+      </v-list-item>
+      <v-list-item
         v-if="idrolUsuario === '3'"
         v-for="(item, i) in citizensItems"
         :key="i"
@@ -38,7 +55,9 @@
         exact
       >
         <v-list-item-action>
-          <v-icon color="#cc5229">{{ item.icon }}</v-icon>
+          <v-icon color="#cc5229">
+            {{ item.icon }}
+          </v-icon>
         </v-list-item-action>
         <v-list-item-content>
           <v-list-item-title v-text="item.title" />
@@ -89,11 +108,41 @@ export default {
     },
     nombre: {
       type: String,
-      default: '0'
+      default: 'null'
+    },
+    drawer: {
+      type: Boolean,
+      default: false
     }
   },
   data: () => ({
-    drawer: null,
+    // drawer: true,
+    publicitems: [
+      {
+        icon: 'mdi-bookmark',
+        title: 'Inicio',
+        to: '/'
+      },
+      {
+        icon: 'mdi-magnify',
+        title: 'Glosario',
+        to: '/public/glosario'
+      },
+      {
+        icon: 'mdi-book-multiple',
+        title: 'Libros y Regulaciones',
+        to: '/public/libroyregulaciones'
+      },
+      {
+        icon: 'mdi-map',
+        title: 'Mapa',
+        to: '/public/mapa'
+      },
+      {
+        icon: 'mdi-image-multiple',
+        title: 'Galería',
+        to: '/public/galeria'
+      }],
     citizensItems: [
       {
         icon: 'mdi-bookmark',
@@ -118,17 +167,17 @@ export default {
       {
         icon: 'mdi-book-multiple',
         title: 'Libros y Regulaciones',
-        to: '/citizens/quejas'
+        to: '/public/libroyregulaciones'
       },
       {
         icon: 'mdi-map',
         title: 'Mapa',
-        to: '/citizens/quejas'
+        to: '/public/mapa'
       },
       {
         icon: 'mdi-image-multiple',
         title: 'Galería',
-        to: '/citizens/quejas'
+        to: '/public/galeria'
       }],
     executivesItems: [
       { title: 'Inicio', icon: 'dashboard', to: '/' },
@@ -153,6 +202,11 @@ export default {
         icon: 'mdi-chart-bubble',
         title: 'Quejas',
         to: '/citizens/quejas'
+      },
+      {
+        icon: 'mdi-chart-bubble',
+        title: 'Solicitudes',
+        to: '/specialists/solicitudes'
       }
     ]
   }),

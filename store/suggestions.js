@@ -31,7 +31,8 @@ export const state = () => ({
   requests_type: [],
   requests_specialist: [],
   requests_finished: [],
-  requests_complains: []
+  requests_complains: [],
+  mensaje: ''
 
 })
 
@@ -62,6 +63,9 @@ export const mutations = {
   },
   [ DELETE_REQUEST_MUTATION ] (state, requestId) {
     state.requests = state.requests.filter(v => v.id_solicitud !== requestId)
+  },
+  SET_MENSAJE (state, mensaje) {
+    state.mensaje = mensaje
   },
   [ EDIT_REQUEST_MUTATION ] (state, payload) {
     state.requests = [
@@ -115,6 +119,7 @@ export const actions = {
     const response = await this.$axios.post('/solicitudes/crear', request)
     const savedRequest = response.data.data
     commit('ADD_REQUEST_MUTATION', savedRequest)
+    commit('SET_MENSAJE', response.data.message)
     return savedRequest
   },
   async [deleteRequest] ({ commit }, request) {
@@ -122,7 +127,7 @@ export const actions = {
       const response = await this.$axios.delete(`/solicitudes/borrar/${request.id_solicitud}`, request)
       if (response.status === 200 || response.status === 204) {
         commit('DELETE_REQUEST_MUTATION', request.id_solicitud)
-        alert('Sujerencia eliminada con exito')
+        commit('SET_MENSAJE', response.data.message)
       }
     } catch (e) {
       console.log(e.response.data)

@@ -6,3 +6,19 @@
 .blank {
   color: #f1f1f1;
 }
+.primary--text {
+  color: #8d0000 !important;
+  caret-color: #8d0000 !important;
+}
+.v-snack__content {
+  -webkit-box-align: center;
+  align-items: center;
+  //display: -webkit-box;
+  display: block;
+  min-height: 48px;
+  -webkit-box-pack: justify;
+  justify-content: space-between;
+  overflow: hidden;
+  padding: 8px 16px;
+  width: 100%;
+}

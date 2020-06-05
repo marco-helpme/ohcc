@@ -6,7 +6,7 @@
     >
       <v-app-bar-nav-icon @click.stop="drawer = !drawer" />
       <v-toolbar-title class="blank">
-       <h1>Orientación y Consulta</h1>
+        <h1>Inicio</h1>
       </v-toolbar-title>
       <v-spacer />
       <v-toolbar-items>
@@ -37,7 +37,7 @@
                 >
                   <v-toolbar-title>Ingrese Usuario y Contraseña</v-toolbar-title>
                 </v-toolbar>
-                <v-card-text>
+                <v-card-text class="text">
                   <v-form>
                     <v-text-field
                       v-model="usuario.nombre_usuario"
@@ -45,6 +45,7 @@
                       name="Usuario"
                       prepend-icon="person"
                       type="text"
+                      color="#8d0000"
                     />
 
                     <v-text-field
@@ -54,13 +55,14 @@
                       name="password"
                       prepend-icon="lock"
                       type="password"
+                      color="#8d0000"
                     />
                   </v-form>
                 </v-card-text>
                 <v-card-actions>
                   <v-spacer />
                   <v-btn
-                    @click="loginUser(usuario)"
+                    @click="loginUser(usuario), snackbar = true"
                     color="#8d0000"
                     dark
                   >
@@ -90,7 +92,7 @@
 
               <v-card class="elevation-12">
                 <v-toolbar
-                  color="primary"
+                  color="#8d0000"
                   dark
                   flat
                 >
@@ -168,10 +170,14 @@
 
                       <v-card-actions>
                         <v-spacer />
-                        <v-btn @click="close" color="blue darken-1" text>
+                        <v-btn
+                          @click="close"
+                          color="#8d0000"
+                          dark
+                        >
                           Cancelar
                         </v-btn>
-                        <v-btn :disabled="invalid" @click="registrarse()" color="blue darken-1" text>
+                        <v-btn :disabled="invalid" @click="registrarse()" color="#cc5229" dark>
                           Enviar
                         </v-btn>
                       </v-card-actions>
@@ -198,7 +204,8 @@
         </template>
       </v-toolbar-items>
     </v-app-bar>
-    <navigation-drawer-component v-if="user != null && drawer === true" v-bind:idrolUsuario="user.id_rol" v-bind:nombre="user.nombre" />
+    <navigation-drawer-component v-if="user != null" v-bind:drawer= drawer v-bind:idrolUsuario="user.id_rol" v-bind:nombre="user.nombre" />
+    <navigation-drawer-component v-else v-bind:drawer= drawer v-bind:idrolUsuario="'0'" v-bind:nombre="''" />
 
     <v-content>
       <v-container
@@ -214,6 +221,20 @@
             <nuxt />
           </v-col>
         </v-row>
+        <template>
+          <div>
+            <v-snackbar
+              v-model="snackbar"
+              color="#009688"
+              top
+              class="align"
+            >
+              <p style="font-size: 1.25rem">
+                {{ message }}
+              </p>
+            </v-snackbar>
+          </div>
+        </template>
       </v-container>
     </v-content>
     <v-footer
@@ -246,6 +267,9 @@ export default {
     ])
   },
   data: () => ({
+    snackbar: false,
+    text: 'My timeout is set to 2000.',
+    timeout: 2000,
     confirmation: '',
     error: '',
     editedIndex: -1,
@@ -283,7 +307,7 @@ export default {
     },
     dialog: false,
     dialog2: false,
-    drawer: false,
+    drawer: true,
     items: [
       {
         icon: 'mdi-apps',
@@ -348,7 +372,7 @@ export default {
 }
 </script>
 
-<style lang="css">
+<style lang="css" scoped>
   .paleta {
     background-color: #8d0000;
     border-color: #8d0000;
@@ -358,5 +382,20 @@ export default {
     margin-top: 10px;
     background-color: #cc5229;
     margin-right: 5px;
+  }
+  .align {
+    text-align: center;
+  }
+  .v-snack__content {
+    -webkit-box-align: center;
+    align-items: center;
+    display: -webkit-box;
+    display: block;
+    min-height: 48px;
+    -webkit-box-pack: justify;
+    justify-content: space-between;
+    overflow: hidden;
+    padding: 8px 16px;
+    width: 100%;
   }
 </style>

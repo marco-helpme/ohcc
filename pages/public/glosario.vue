@@ -1,34 +1,32 @@
 <template>
-  <div>
-    <v-container>
-      <v-text-field
-        v-model="search"
-        append-icon="mdi-magnify"
-        label="Search"
-        single-line
-        hide-details
-      ></v-text-field>
-      <v-row
-        v-for="(glosario, i) in glosarios"
-        :key="i"
-      >
-        <v-col>
-          <v-card
-            color="white"
-            class="glossary"
-          >
-            <v-card-title class="title">
-              {{ glosario.titulo }}
-            </v-card-title>
-            <hr style="margin-right: 50px; margin-left: 50px" class="line">
-            <v-card-text class="text">
-              {{ glosario.descripcion }}
-            </v-card-text>
-          </v-card>
-        </v-col>
-      </v-row>
-    </v-container>
-  </div>
+  <v-container>
+    <v-text-field
+      v-model="search"
+      append-icon="mdi-magnify"
+      label="Search"
+      single-line
+      hide-details
+    />
+    <v-row
+      v-for="(glosario, i) in glosarios"
+      :key="i"
+    >
+      <v-col>
+        <v-card
+          color="white"
+          class="glossary"
+        >
+          <v-card-title class="title">
+            {{ glosario.titulo }}
+          </v-card-title>
+          <hr style="margin-right: 50px; margin-left: 50px" class="line">
+          <v-card-text class="text">
+            {{ glosario.descripcion }}
+          </v-card-text>
+        </v-card>
+      </v-col>
+    </v-row>
+  </v-container>
 </template>
 
 <script>
