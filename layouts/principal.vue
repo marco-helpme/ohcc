@@ -5,9 +5,7 @@
       style="background-color: #8d0000; border-color: #8d0000"
     >
       <v-app-bar-nav-icon @click.stop="drawer = !drawer" />
-      <v-toolbar-title class="blank">
-        <h1>Inicio</h1>
-      </v-toolbar-title>
+      <v-toolbar-title class="blank" />
       <v-spacer />
       <v-toolbar-items>
         <template>
@@ -62,7 +60,7 @@
                 <v-card-actions>
                   <v-spacer />
                   <v-btn
-                    @click="loginUser(usuario), snackbar = true"
+                    @click="loginUser(usuario)"
                     color="#8d0000"
                     dark
                   >
@@ -204,10 +202,17 @@
         </template>
       </v-toolbar-items>
     </v-app-bar>
-    <navigation-drawer-component v-if="user != null" v-bind:drawer= drawer v-bind:idrolUsuario="user.id_rol" v-bind:nombre="user.nombre" />
-    <navigation-drawer-component v-else v-bind:drawer= drawer v-bind:idrolUsuario="'0'" v-bind:nombre="''" />
+    <menu-specialist-component
+      v-if="user != null && user.id_rol == '2'"
+      v-bind:nombre="user.nombre"
+      v-bind:drawer="drawer"
+      v-bind:items="specialistItems"
+    />
+    <navigation-drawer-component v-else-if="user != null" v-bind:drawer="drawer" v-bind:idrolUsuario="user.id_rol" v-bind:nombre="user.nombre" />
+    <menu-public-component v-else-if="user === null" v-bind:items="publicitems" v-bind:drawer="drawer" />
+    <!--    <navigation-drawer-component v-else v-bind:drawer= drawer v-bind:idrolUsuario="'0'" v-bind:nombre="''" />-->
 
-    <v-content>
+    <v-content class="fondo">
       <v-container
         fluid
         class="fondo"
@@ -223,16 +228,11 @@
         </v-row>
         <template>
           <div>
-            <v-snackbar
-              v-model="snackbar"
-              color="#009688"
-              top
-              class="align"
-            >
-              <p style="font-size: 1.25rem">
-                {{ message }}
-              </p>
-            </v-snackbar>
+            <snakbar-component
+              v-bind:mensaje="message"
+              v-bind:color="color"
+              v-bind:snackbar="snackbar"
+            />
           </div>
         </template>
       </v-container>
@@ -241,7 +241,55 @@
       app
       style="background-color: #8d0000; border-color: #8d0000"
     >
-      <span class="white--text">&copy; 2019</span>
+      <span class="white--text">&copy; 2020</span>
+      <v-row
+        justify="center"
+      >
+        <a
+          href="https://www.youtube.com/channel/UCOifap34ZWDrG42gnY0Z3fw"
+          class="align-icons"
+        >
+          <v-icon
+            color="#cc5229"
+            large
+          >
+            mdi-youtube
+          </v-icon>
+        </a>
+        <a
+          href="https://www.instagram.com/oh.camaguey.1997/"
+          class="align-icons"
+        >
+          <v-icon
+            color="#cc5229"
+            large
+          >
+            mdi-instagram
+          </v-icon>
+        </a>
+        <a
+          href="https://twitter.com/OHCamaguey"
+          class="align-icons"
+        >
+          <v-icon
+            color="#cc5229"
+            large
+          >
+            mdi-twitter
+          </v-icon>
+        </a>
+        <a
+          href="https://www.facebook.com/oficinahistoriador/"
+          class="align-icons a-fondo elementor-animation-grow"
+        >
+          <v-icon
+            color="#cc5229"
+            large
+          >
+            mdi-facebook-box
+          </v-icon>
+        </a>
+      </v-row>
     </v-footer>
   </v-app>
 </template>
@@ -253,8 +301,11 @@ import { mapState, mapActions } from 'vuex'
 // import MenuDirectivoComponent from '../components/menu/menuDirectivoComponent'
 import { ValidationProvider, ValidationObserver } from 'vee-validate'
 import NavigationDrawerComponent from '../components/menu/navigationDrawerComponent'
+import MenuSpecialistComponent from '../components/menu/menuSpecialistComponent'
+import MenuPublicComponent from '../components/menu/menuPublicComponent'
+import SnakbarComponent from '../components/snakbarComponent'
 export default {
-  components: { NavigationDrawerComponent, ValidationProvider, ValidationObserver },
+  components: { SnakbarComponent, MenuPublicComponent, MenuSpecialistComponent, NavigationDrawerComponent, ValidationProvider, ValidationObserver },
   props: {
     source: String
   },
@@ -267,6 +318,8 @@ export default {
     ])
   },
   data: () => ({
+    title: '',
+    color: '#009688',
     snackbar: false,
     text: 'My timeout is set to 2000.',
     timeout: 2000,
@@ -344,7 +397,114 @@ export default {
       'id_tipo_ciudadano': '',
       'latitud_vivienda': '',
       'longitud_vivienda': ''
-    }
+    },
+    publicitems: [
+      {
+        icon: 'mdi-bookmark',
+        title: 'Inicio',
+        to: '/'
+      },
+      {
+        icon: 'mdi-magnify',
+        title: 'Glosario',
+        to: '/public/glosario'
+      },
+      {
+        icon: 'mdi-book-multiple',
+        title: 'Libros y Regulaciones',
+        to: '/public/libroyregulaciones'
+      },
+      {
+        icon: 'mdi-map',
+        title: 'Mapa',
+        to: '/public/mapa'
+      },
+      {
+        icon: 'mdi-image-multiple',
+        title: 'Galería',
+        to: '/public/galeria'
+      }],
+    citizensItems: [
+      {
+        icon: 'mdi-bookmark',
+        title: 'Inicio',
+        to: '/'
+      },
+      {
+        icon: 'mdi-thought-bubble',
+        title: 'Sugerencias',
+        to: '/citizens/sugerencias'
+      },
+      {
+        icon: 'mdi-chart-bubble',
+        title: 'Quejas',
+        to: '/citizens/quejas'
+      },
+      {
+        icon: 'mdi-magnify',
+        title: 'Glosario',
+        to: '/public/glosario'
+      },
+      {
+        icon: 'mdi-book-multiple',
+        title: 'Libros y Regulaciones',
+        to: '/public/libroyregulaciones'
+      },
+      {
+        icon: 'mdi-map',
+        title: 'Mapa',
+        to: '/public/mapa'
+      },
+      {
+        icon: 'mdi-image-multiple',
+        title: 'Galería',
+        to: '/public/galeria'
+      }],
+    executivesItems: [
+      { title: 'Inicio', icon: 'dashboard', to: '/' },
+      { title: 'Directivos', icon: 'account_box', to: '/executives' },
+      { title: 'Especialistas', icon: 'account_box', to: '/executives/specialist' },
+      { title: 'Solicitudes Respondidas', icon: 'account_box', to: '/executives/graficos/solicitudesRespuestas' },
+      { title: 'Evalucaión Promedio Especialistas', icon: 'account_box', to: '/executives/graficos/evalucaionPromedioEspecialistas' },
+      { title: 'Comportamiento Solicitudes', icon: 'account_box', to: '/executives/graficos/comportamientoSolicitudesAnuales' }
+    ],
+    specialistItems: [
+      {
+        icon: 'mdi-apps',
+        title: 'Inicio',
+        to: '/'
+      },
+      {
+        icon: 'mdi-account',
+        title: 'Consultas',
+        to: '/specialists/consultas'
+      },
+      {
+        icon: 'mdi-account',
+        title: 'Acciónes Constructivas',
+        to: '/specialists/accionConstructiva'
+      },
+      {
+        icon: 'mdi-account',
+        title: 'Consulta para Acciónes Constructivas',
+        to: '/specialists/consultaaccionConstructiva'
+      },
+      {
+        icon: 'mdi-account',
+        title: 'Regulaciones TCP',
+        to: '/specialists/regulacionestcp'
+      },
+      {
+        icon: 'mdi-account',
+        title: 'Sugerencias',
+        to: '/specialists/sugerencias'
+      },
+      {
+        icon: 'mdi-account',
+        title: 'Quejas',
+        to: '/specialists/quejas'
+      }
+    ]
   }),
   methods: {
     ...mapActions('users', [
@@ -355,6 +515,7 @@ export default {
     ]),
     loginUser (usuario) {
       this.login(usuario)
+      this.snackbar = true
     },
     salir () {
       this.logout()
@@ -397,5 +558,25 @@ export default {
     overflow: hidden;
     padding: 8px 16px;
     width: 100%;
+  }
+  .trans {
+    transition: opacity .4s ease-in-out;
+  }
+  .a:not(.on-hover) {
+    color: red;
+  }
+  .elementor-animation-grow {
+    transition-duration: .3s;
+    transition-property: transform;
+  }
+  .align-icons {
+    margin-right: 15px
+  }
+  a, a:visited {
+    color: #1e73be;
+  }
+
+  a, a:visited, a:hover, a:focus {
+    text-decoration: none;
   }
 </style>

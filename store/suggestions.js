@@ -102,6 +102,7 @@ export const actions = {
   // chequear esta funcion
   // Obtener todas las solicitudes de un usuario
   async [loadRquestUser] ({ commit }, request) {
+    request.id_usuario = localStorage.getItem('user_id')
     const response = await this.$axios.post(`/solicitudes/usuario-tipo`, request)
     const payload = response.data.data
     console.log(response.message)
@@ -146,29 +147,30 @@ export const actions = {
   },
   // Especialista recepciona solicitud y la pone en marcha
   async [specialistRequestBegin] ({ commit }, request) {
+    request.id_especialista = localStorage.getItem('user_id')
     const response = await this.$axios.put(`solicitudes/especialista-recibe/${request.id_solicitud}`, request)
-    const payload = response.data.data
+    const payload = response.data
     commit('EDIT_REQUEST_MUTATION', payload)
     return payload
   },
   // Especialista da respuesta y cambia el estado de la solicitud
   async [specialistAnswer] ({ commit }, request) {
     const response = await this.$axios.put(`solicitudes/especialista-set-respuesta/${request.id_solicitud}`, request)
-    const payload = response.data.data
+    const payload = response.data
     commit('EDIT_REQUEST_MUTATION', payload)
     return payload
   },
   // evaluacion por usuario
   async [userEvaluation] ({ commit }, request) {
     const response = await this.$axios.put(`solicitudes/ciudadano-set-evaluacion/${request.id_solicitud}`, request)
-    const payload = response.data.data
+    const payload = response.data
     commit('EDIT_REQUEST_MUTATION', payload)
     return payload
   },
   // Actualizar descripcion por usuario
   async [updateDescriptionUser] ({ commit }, request) {
     const response = await this.$axios.put(`solicitudes/ciudadano-set-descripcion/${request.id_solicitud}`, request)
-    const payload = response.data.data
+    const payload = response.data
     commit('EDIT_REQUEST_MUTATION', payload)
     return payload
   },
@@ -183,9 +185,11 @@ export const actions = {
   // Obtener solucitudes por el especialista
   // Get request by specialist
   async [getRequestBySpecialist] ({ commit }, request) {
-    const response = await this.$axios.get(`solicitud/${request.id_tipo_solicitud}`, request)
-    const payload = response.data.data
-    commit('SET_REQUEST_SPECIALIST', payload)
+    request.id_especialista = localStorage.getItem('user_id')
+    const response = await this.$axios.post(`solicitud/${request.id}`, request)
+    const payload = response.data
+    console.log(payload)
+    commit('SET_REQUESTS_SPECIALIST_MUTATION', payload)
   },
   // Obtener todas las solicitudes finalizadas
   // Get completed requests

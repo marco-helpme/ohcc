@@ -3,7 +3,7 @@ import createPersistedState from 'vuex-persistedstate'
 export default ({ store }) => {
   window.onNuxtReady(() => {
     createPersistedState({
-      key: '',
+      key: 'user',
       paths: ['users.user']
     })(store)
   })

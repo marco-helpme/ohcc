@@ -24,7 +24,7 @@
               <v-container>
                 <v-row>
                   <v-col cols="12">
-                    <validation-provider v-slot="{ errors }" rules="max:1500|min:20">
+                    <validation-provider v-slot="{ errors }" rules="max:1500|min:20|required">
                       <v-textarea
                         v-model="sugerencia.descripcion"
                         label="Descripcón"
@@ -77,13 +77,26 @@
                 >
                   <span class="title font-weight-light"># {{ item.id_solicitud }}</span>
                 </v-col>
+                <v-col
+                  v-if="item.id_estado === '1'"
+                  cols="1"
+                >
+                  <edit-description-user-component
+                    v-bind:estado="item.id_estado"
+                    v-bind:descripcion="item.descripcion"
+                    v-bind:update-description-user="updateDescriptionUser"
+                    v-bind:id-solicitud="item.id_solicitud"
+                    v-bind:load-request-user="loadRquestUser"
+                    v-bind:id-tipo-solicitud="request.id_tipo_solicitud"
+                  />
+                  <v-icon
+                    @click="deleteItem(item)"
+                    color="red"
+                  >
+                    delete
+                  </v-icon>
+                </v-col>
               </v-row>
-              <v-icon
-                @click="deleteItem(item)"
-                color="red"
-              >
-                delete
-              </v-icon>
             </v-card-title>
             <v-card-text class="headline font-weight-bold" style="float: left">
               <p class="text text-left">
@@ -91,8 +104,30 @@
               </p>
               <hr style="" class="line">
             </v-card-text>
+            <v-card-text v-if="item.respuesta != null" class="headline text font-weight-bold text-left" style="float: left">
+              Respuesta: {{ item.respuesta }}
+              <p class="text text-left" />
+              <v-rating
+                v-model="item.evaluacion"
+                color="yellow darken-3"
+                background-color="grey darken-1"
+                empty-icon="$ratingFull"
+                half-increments
+                hover
+              />
+              <v-btn
+                @click="userEvaluation(requesteval = {
+                  id_solicitud: item.id_solicitud,
+                  evaluacion: item.evaluacion
+                })"
+                color="primary"
+                text
+              >
+                Evaluar
+              </v-btn>
+            </v-card-text>
             <v-card-actions>
-              <estado v-bind:estado="item.id_estado" v-bind:fecha="item.fecha_creada"/>
+              <estado v-bind:estado="item.id_estado" v-bind:fecha="item.fecha_creada" />
             </v-card-actions>
           </v-card>
         </v-hover>
@@ -105,7 +140,7 @@
       small
       class="align"
     >
-      <p>{{mensaje}}</p>
+      <p>{{ mensaje }}</p>
     </v-snackbar>
   </v-container>
 </template>
@@ -115,19 +150,27 @@ import { mapState, mapActions } from 'vuex'
 import moment from 'moment'
 import { ValidationProvider, ValidationObserver } from 'vee-validate'
 import Estado from '../../../components/estado'
+import EditDescriptionUserComponent from '../../../components/citizens/editDescriptionUserComponent'
 export default {
+  middleware: 'redirect',
+  head: { 'titleTemplate': '%s - Sugerencias' },
   name: 'Index',
   layout: 'principal',
-  components: { Estado, ValidationProvider, ValidationObserver },
+  components: { EditDescriptionUserComponent, Estado, ValidationProvider, ValidationObserver },
   data () {
     return {
+      rol: 3,
+      requesteval: {
+        id_solicitud: '141',
+        evaluacion: 4
+      },
+      rating: 1,
       snackbar: false,
-      text: 'My timeout is set to 2000.',
       timeout: 2000,
       dialog: false,
+      dialog2: false,
       solicitudes: '',
       request: {
-        id_usuario: 95,
         id_tipo_solicitud: 6
       },
       date: moment().format('YYYY-MM-DD'),
@@ -157,10 +200,16 @@ export default {
     ...mapActions('suggestions', [
       'loadRquestUser',
       'createRequest',
-      'deleteRequest'
+      'deleteRequest',
+      'userEvaluation',
+      'updateDescriptionUser'
     ]),
     filluserId () {
       this.sugerencia.id_usuario = this.user.id_usuario
+      this.request.id_usuario = this.user.id_usuario
+    },
+    async load () {
+      await this.filluserId()
     },
     async deleteItem (item) {
       await this.deleteRequest(item)
@@ -172,6 +221,7 @@ export default {
       await this.createRequest(this.sugerencia)
       this.snackbar = true
       this.loadRquestUser(this.request)
+      this.sugerencia.descripcion = ''
     },
     yyyymmdd () {
       const mm = this.getMonth() + 1 // getMonth() is zero-based
@@ -183,6 +233,15 @@ export default {
       ].join('')
     }
   }
+  // watch: {
+  //   user (val) {
+  //     if (this.user == null) {
+  //       this.$router.push('/')
+  //     } else if (this.user.id_rol !== 3) {
+  //       this.$router.push('/')
+  //     }
+  //   }
+  // }
 }
 </script>
 

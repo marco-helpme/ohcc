@@ -84,10 +84,11 @@ export default {
     },
     fillPromediosEspecialistas (promedios) {
       const promediosEspecialistas = []
-      for (let i = 0; i < 3; i++) {
+      for (let i = 0; i < promedios.length; i++) {
         console.log('lista de promedios ' + promedios[i])
         promediosEspecialistas.push(this.CalcularPromedio(promedios[i]))
       }
+      console.log(promediosEspecialistas + ' listaaaaa')
       return promediosEspecialistas
     },
     fillColors () {
@@ -126,7 +127,7 @@ export default {
 
   h1 {
     font-family: 'Helvetica', Arial;
-    color: white;
+    color: black;
     text-transform: uppercase;
     border-bottom: 1px solid #f1f1f1;
     padding-bottom: 15px;

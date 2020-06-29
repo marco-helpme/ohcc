@@ -1,16 +1,7 @@
 <template>
-  <v-list-item class="grow">
-    <v-list-item-content>
-      <p class="text text-left">
-        <v-icon>
-          mdi-calendar
-        </v-icon>
-        {{ fecha }}
-      </p>
-    </v-list-item-content>
+  <v-list-item>
     <v-row
       v-if="estado == 1"
-      justify="end"
     >
       <v-icon
         color="#8d0000"
@@ -22,7 +13,6 @@
     </v-row>
     <v-row
       v-if="estado == 2"
-      justify="end"
     >
       <v-icon
         color="orange"
@@ -34,7 +24,6 @@
     </v-row>
     <v-row
       v-if="estado == 3"
-      justify="end"
     >
       <v-icon
         color="green"
@@ -46,7 +35,6 @@
     </v-row>
     <v-row
       v-if="estado == 4"
-      justify="end"
     >
       <v-icon
         color="red"
@@ -61,12 +49,9 @@
 
 <script>
 export default {
-  name: 'Estado',
+  name: 'EstadoComponent',
   props: {
     estado: {
-      type: String
-    },
-    fecha: {
       type: String
     }
   }

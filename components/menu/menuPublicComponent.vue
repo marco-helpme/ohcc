@@ -1,3 +1,4 @@
+
 <template>
   <v-navigation-drawer
     v-model="drawer"
@@ -9,7 +10,6 @@
           <v-row>
             <v-col>
               <v-list-item-title class="headline blank">
-                {{nombre}}
               </v-list-item-title>
               <!--              <v-list-item-subtitle>-->
               <!--                <p class="blank">-->
@@ -27,8 +27,7 @@
       </v-list-item>
     </div>
     <v-list dense>
-      <v-list-item-title align="center">
-      </v-list-item-title>
+      <v-list-item-title align="center" />
       <v-list-item
         v-for="(item, i) in items"
         :key="i"
@@ -37,7 +36,7 @@
         exact
       >
         <v-list-item-action>
-          <v-icon>{{ item.icon }}</v-icon>
+          <v-icon color="#cc5229">{{ item.icon }}</v-icon>
         </v-list-item-action>
         <v-list-item-content>
           <v-list-item-title v-text="item.title" />
@@ -53,7 +52,7 @@
         exact
       >
         <v-list-item-action>
-          <v-icon>{{ item.icon }}</v-icon>
+          <v-icon color="#cc5229">{{ item.icon }}</v-icon>
         </v-list-item-action>
         <v-list-item-content>
           <v-list
@@ -69,7 +68,7 @@
 
 <script>
 export default {
-  name: 'MenuSpecialistComponent',
+  name: 'MenuPublicComponent',
   props: {
     nombre: {
       type: String,
@@ -82,32 +81,7 @@ export default {
     items: {
       type: Array
     }
-  },
-  data: () => ({
-    drawer: null
-    // items: [
-    //   {
-    //     icon: 'mdi-apps',
-    //     title: 'Inicio',
-    //     to: '/'
-    //   },
-    //   {
-    //     icon: 'mdi-account',
-    //     title: 'Especialistas',
-    //     to: '/specialists'
-    //   },
-    //   {
-    //     icon: 'mdi-chart-bubble',
-    //     title: 'Quejas',
-    //     to: '/citizens/quejas'
-    //   },
-    //   {
-    //     icon: 'mdi-chart-bubble',
-    //     title: 'Solicitudes',
-    //     to: '/specialists/solicitudes'
-    //   }
-    // ]
-  })
+  }
 }
 </script>
 

@@ -111,6 +111,7 @@ export const actions = {
       const payload = response.data
       commit('LOGIN_USER_MUTATION', payload.data)
       commit('SET_MESSAGE_LOGIN_MUTATION', payload.message)
+      localStorage.setItem('user_id', payload.data.id_usuario)
       console.log(response)
       return payload
     } catch (e) {

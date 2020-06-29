@@ -19,6 +19,7 @@
     "jspdf-autotable": "^3.2.13",
     "moment": "^2.25.1",
     "nuxt": "^2.0.0",
+    "nuxt-leaflet": "0.0.21",
     "nuxt-material-design-icons": "^1.0.4",
     "vee-validate": "^3.2.5",
     "vue-chart.js": "^0.2.0",

@@ -94,7 +94,7 @@ export default {
 
   h1 {
     font-family: 'Helvetica', Arial;
-    color: white;
+    color: black;
     text-transform: uppercase;
     border-bottom: 1px solid #f1f1f1;
     padding-bottom: 15px;

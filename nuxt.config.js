@@ -14,10 +14,10 @@ export default {
       { hid: 'description', name: 'description', content: process.env.npm_package_description || '' }
     ],
     link: [
-      { rel: 'icon', type: 'image/x-icon', href: '/faviconohcc.png' },
+      { rel: 'icon', type: 'image/x-icon', href: '/faviconohcc.png' }
       // { rel: 'stylesheet', href: 'https://fonts.googleapis.com/css?family=Roboto:100,300,400,500,700,900' },
       // { rel: 'stylesheet', url: '@/assets/css/main.css' },
-      { rel: 'stylesheet', href: 'https://cdn.jsdelivr.net/npm/@mdi/fon t@4.x/css/materialdesignicons.min.css' }
+      // { rel: 'stylesheet', href: 'https://cdn.jsdelivr.net/npm/@mdi/fon t@4.x/css/materialdesignicons.min.css' }
     ]
   },
   /*
@@ -29,7 +29,8 @@ export default {
   */
   css: [
     '@/assets/css/main.css',
-    '@/assets/fonts/lucida/style.css'
+    '@/assets/fonts/lucida/style.css',
+    '@/assets/css/materialdesignicons.css'
   ],
   /*
   ** Plugins to load before mounting the App
@@ -56,8 +57,9 @@ export default {
   modules: [
     // Doc: https://axios.nuxtjs.org/usage
     '@nuxtjs/axios',
-    'nuxt-material-design-icons'
-    // '@nuxtjs/auth'
+    'nuxt-material-design-icons',
+    'nuxt-leaflet',
+    '@nuxtjs/auth'
   ],
   /*
   ** Axios module configuration
@@ -92,7 +94,7 @@ export default {
   ** Build configuration
   */
   build: {
-    transpile: ['vee-validate/dist/rules'],
+    transpile: ['vee-validate/dist/rules', '@nuxtjs/auth'],
     /*
     ** You can extend webpack config here
     */
@@ -104,6 +106,18 @@ export default {
           loader: 'url-loader'
         }
       )
+    }
+  },
+
+  auth: {
+    strategies: {
+      local: {
+        endpoints: {
+          login: { url: 'usuarios/login', method: 'post' },
+          user: { url: 'usuarios', method: 'get' }
+        },
+        tokenType: ''
+      }
     }
   }
 }

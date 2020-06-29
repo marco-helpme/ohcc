@@ -36,14 +36,31 @@
         </v-tabs>
       </v-toolbar>
     </template>
+    <v-select
+    :items="tiposSolicitudes"
+    >
+    </v-select>
   </div>
 </template>
 
 <script>
+import { mapState } from 'vuex'
+
 export default {
   name: 'Solicitudes',
-  layout: 'principal'
+  layout: 'principal',
+  data () {
+    return {
+      tiposSolicitudes: ['hola', 'bingo']
+    }
+  },
+  computed: {
+    ...mapState('request_type', [
+      'requestType'
+    ])
+  }
 }
+
 </script>
 
 <style scoped>
