@@ -44,10 +44,12 @@
             <v-card-actions>
               <v-spacer />
               <v-btn @click="dialog = false" color="red" dark>
-                Cerrar
+                <v-icon>mdi-close</v-icon>Cerrar
               </v-btn>
               <v-btn :disabled="invalid" @click="crearandAct(), dialog = false" color="blue darken-1" dark>
-                Enviar
+                <v-icon class="mr-1">
+                  mdi-send
+                </v-icon>Enviar
               </v-btn>
             </v-card-actions>
           </v-card>
@@ -95,6 +97,10 @@
                   >
                     delete
                   </v-icon>
+                  <eliminar-tramite-component
+                    v-bind:eliminar="deleteItem"
+                    v-bind:item="item"
+                  />
                 </v-col>
               </v-row>
             </v-card-title>
@@ -133,15 +139,6 @@
         </v-hover>
       </v-col>
     </v-row>
-    <v-snackbar
-      v-model="snackbar"
-      color="#009688"
-      top
-      small
-      class="align"
-    >
-      <p>{{ mensaje }}</p>
-    </v-snackbar>
   </v-container>
 </template>
 
@@ -151,21 +148,22 @@ import moment from 'moment'
 import { ValidationProvider, ValidationObserver } from 'vee-validate'
 import Estado from '../../../components/estado'
 import EditDescriptionUserComponent from '../../../components/citizens/editDescriptionUserComponent'
+import EliminarTramiteComponent from '~/components/eliminarTramiteComponent'
 export default {
   middleware: 'redirect',
   head: { 'titleTemplate': '%s - Sugerencias' },
   name: 'Index',
   layout: 'principal',
-  components: { EditDescriptionUserComponent, Estado, ValidationProvider, ValidationObserver },
+  components: { EliminarTramiteComponent, EditDescriptionUserComponent, Estado, ValidationProvider, ValidationObserver },
   data () {
     return {
+      eliminarDailog: false,
       rol: 3,
       requesteval: {
         id_solicitud: '141',
         evaluacion: 4
       },
       rating: 1,
-      snackbar: false,
       timeout: 2000,
       dialog: false,
       dialog2: false,
@@ -204,6 +202,9 @@ export default {
       'userEvaluation',
       'updateDescriptionUser'
     ]),
+    ...mapActions('snackbar', [
+      'setSnackbar'
+    ]),
     filluserId () {
       this.sugerencia.id_usuario = this.user.id_usuario
       this.request.id_usuario = this.user.id_usuario
@@ -213,7 +214,7 @@ export default {
     },
     async deleteItem (item) {
       await this.deleteRequest(item)
-      this.snackbar = true
+      this.$store.dispatch('snackbar/setSnackbar', { color: 'red', text: this.mensaje })
       this.loadRquestUser(this.request)
     },
     async crearandAct () {

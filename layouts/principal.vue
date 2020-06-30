@@ -224,17 +224,23 @@
         >
           <v-col class="text-center">
             <nuxt />
+
+            <v-snackbar
+              v-for="(snackbar, index) in snackbars.filter(s => s.showing)"
+              :key="snackbar.text + Math.random()"
+              v-model="snackbar.showing"
+              :timeout="snackbar.timeout"
+              :color="snackbar.color"
+              :style="`bottom: ${(index * 60) + 8}px`"
+            >
+              {{ snackbar.text }}
+
+              <v-btn @click="snackbar.showing = false" text>
+                Close
+              </v-btn>
+            </v-snackbar>
           </v-col>
         </v-row>
-        <template>
-          <div>
-            <snakbar-component
-              v-bind:mensaje="message"
-              v-bind:color="color"
-              v-bind:snackbar="snackbar"
-            />
-          </div>
-        </template>
       </v-container>
     </v-content>
     <v-footer
@@ -303,9 +309,8 @@ import { ValidationProvider, ValidationObserver } from 'vee-validate'
 import NavigationDrawerComponent from '../components/menu/navigationDrawerComponent'
 import MenuSpecialistComponent from '../components/menu/menuSpecialistComponent'
 import MenuPublicComponent from '../components/menu/menuPublicComponent'
-import SnakbarComponent from '../components/snakbarComponent'
 export default {
-  components: { SnakbarComponent, MenuPublicComponent, MenuSpecialistComponent, NavigationDrawerComponent, ValidationProvider, ValidationObserver },
+  components: { MenuPublicComponent, MenuSpecialistComponent, NavigationDrawerComponent, ValidationProvider, ValidationObserver },
   props: {
     source: String
   },
@@ -315,12 +320,14 @@ export default {
     ...mapState('users', [
       'user',
       'message'
+    ]),
+    ...mapState('snackbar', [
+      'snackbars'
     ])
   },
   data: () => ({
     title: '',
     color: '#009688',
-    snackbar: false,
     text: 'My timeout is set to 2000.',
     timeout: 2000,
     confirmation: '',
@@ -515,7 +522,7 @@ export default {
     ]),
     loginUser (usuario) {
       this.login(usuario)
-      this.snackbar = true
+      this.$store.dispatch('snackbar/setSnackbar', { text: `Logeado con éxito` })
     },
     salir () {
       this.logout()

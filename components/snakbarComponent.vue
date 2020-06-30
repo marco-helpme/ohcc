@@ -1,11 +1,15 @@
 <template>
   <v-snackbar
-    v-model="snackbar"
-    :color = "color"
+    v-model="snackbar.showing"
+    :timeout="snackbar.timeout"
+    :color="snackbar.color"
+    :style="`bottom: ${(index * 60) + 8}px`"
   >
-    <p style="font-size: 1.25rem">
-      {{ mensaje }}
-    </p>
+    {{ snackbar.text }}
+
+    <v-btn @click="snackbar.showing = false" text>
+      Cerrar
+    </v-btn>
   </v-snackbar>
 </template>
 
@@ -13,14 +17,8 @@
 export default {
   name: 'SnakbarComponent',
   props: {
-    mensaje: {
-      type: String
-    },
-    color: {
-      type: String
-    },
     snackbar: {
-      type: Boolean
+      type: Object
     }
   }
 }
