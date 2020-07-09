@@ -9,13 +9,14 @@
           <v-row>
             <v-col>
               <v-list-item-title class="headline blank">
-                {{nombre}}
+                <v-container>
+                  <v-row>
+                    <v-col>
+                      {{nombre}}
+                    </v-col>
+                  </v-row>
+                </v-container>
               </v-list-item-title>
-              <!--              <v-list-item-subtitle>-->
-              <!--                <p class="blank">-->
-              <!--                  subtext-->
-              <!--                </p>-->
-              <!--              </v-list-item-subtitle>-->
             </v-col>
             <v-col>
               <v-list-item-title class="headline blank">
@@ -30,14 +31,14 @@
       <v-list-item-title align="center">
       </v-list-item-title>
       <v-list-item
-        v-for="(item, i) in items"
-        :key="i"
-        :to="item.to"
-        router
-        exact
+              v-for="(item, i) in publicitems"
+              :key="i"
+              :to="item.to"
+              router
+              exact
       >
         <v-list-item-action>
-          <v-icon>{{ item.icon }}</v-icon>
+          <v-icon color="rgb(204, 82, 41)">{{ item.icon }}</v-icon>
         </v-list-item-action>
         <v-list-item-content>
           <v-list-item-title v-text="item.title" />
@@ -45,22 +46,20 @@
       </v-list-item>
     </v-list>
     <v-list dense>
+      <v-list-item-title align="center">
+      </v-list-item-title>
       <v-list-item
-        v-for="(item, i) in actions"
+        v-for="(item, i) in items"
         :key="i"
         :to="item.to"
         router
         exact
       >
         <v-list-item-action>
-          <v-icon>{{ item.icon }}</v-icon>
+          <v-icon color="rgb(204, 82, 41)">{{ item.icon }}</v-icon>
         </v-list-item-action>
         <v-list-item-content>
-          <v-list
-            v-for="subitem in actions.subitems"
-          >
-            <v-list-item-title v-text="subitem.title" />
-          </v-list>
+          <v-list-item-title v-text="item.title" />
         </v-list-item-content>
       </v-list-item>
     </v-list>
@@ -80,6 +79,9 @@ export default {
       default: false
     },
     items: {
+      type: Array
+    },
+    publicitems: {
       type: Array
     }
   },

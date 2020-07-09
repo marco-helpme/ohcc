@@ -104,7 +104,6 @@ export const actions = {
       const response = await this.$axios.delete(`/directivos/borrar/${executive.id_usuario}`, executive)
       if (response.status === 200 || response.status === 204) {
         commit('DELETE_EXECUTIVES_MUTATION', executive)
-        alert('Directivo eliminado con exito')
       }
     } catch (e) {
       console.log(e.response.data)

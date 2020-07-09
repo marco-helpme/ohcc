@@ -9,7 +9,13 @@
           <v-row>
             <v-col>
               <v-list-item-title class="headline blank">
-                {{ nombre }}
+                <v-container>
+                  <v-row>
+                    <v-col>
+                      {{ nombre }}
+                    </v-col>
+                  </v-row>
+                </v-container>
               </v-list-item-title>
               <!--              <v-list-item-subtitle>-->
               <!--                <p class="blank">-->
@@ -181,7 +187,7 @@ export default {
       }],
     executivesItems: [
       { title: 'Inicio', icon: 'dashboard', to: '/' },
-      { title: 'Directivos', icon: 'account_box', to: '/executives' },
+      { title: 'Directivos', icon: 'cancel', to: '/executives' },
       { title: 'Especialistas', icon: 'account_box', to: '/executives/specialist' },
       { title: 'Solicitudes Respondidas', icon: 'account_box', to: '/executives/graficos/solicitudesRespuestas' },
       { title: 'Evalucaión Promedio Especialistas', icon: 'account_box', to: '/executives/graficos/evalucaionPromedioEspecialistas' },

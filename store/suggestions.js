@@ -26,7 +26,7 @@ import {
 
 export const state = () => ({
   requests: [],
-  request: [],
+  consulta: [],
   requests_user: [],
   requests_type: [],
   requests_specialist: [],
@@ -59,7 +59,7 @@ export const mutations = {
     state.requests_finished = request
   },
   [ ADD_REQUEST_MUTATION ] (state, suggestion) {
-    state.requests = state.requests.concat(suggestion)
+    state.consulta = suggestion
   },
   [ DELETE_REQUEST_MUTATION ] (state, requestId) {
     state.requests = state.requests.filter(v => v.id_solicitud !== requestId)
@@ -102,12 +102,15 @@ export const actions = {
   // chequear esta funcion
   // Obtener todas las solicitudes de un usuario
   async [loadRquestUser] ({ commit }, request) {
-    request.id_usuario = localStorage.getItem('user_id')
-    const response = await this.$axios.post(`/solicitudes/usuario-tipo`, request)
-    const payload = response.data.data
-    console.log(response.message)
-    commit('SET_REQUESTS_USER_MUTATION', payload)
-    return payload
+    try {
+      request.id_usuario = localStorage.getItem('user_id')
+      const response = await this.$axios.post(`/solicitudes/usuario-tipo`, request)
+      const payload = response.data.data
+      commit('SET_REQUESTS_USER_MUTATION', payload)
+      return payload
+    } catch (e) {
+      return e
+    }
   },
   // Obtener todas las solicitudes X tipo
   async [loadRquestType] ({ commit }, id) {
@@ -117,11 +120,18 @@ export const actions = {
   },
   // Agregar una Solicitud creada por el usuario
   async [createRequest] ({ commit }, request) {
-    const response = await this.$axios.post('/solicitudes/crear', request)
-    const savedRequest = response.data.data
-    commit('ADD_REQUEST_MUTATION', savedRequest)
-    commit('SET_MENSAJE', response.data.message)
-    return savedRequest
+    try {
+      const response = await this.$axios.post('/solicitudes/crear', request)
+      const savedRequest = response.data
+      commit('ADD_REQUEST_MUTATION', savedRequest)
+      return savedRequest
+    } catch (e) {
+      const message = 'Se ha perdido la conexión con el servidor, intente en un momento'
+      const savedRequest = {}
+      savedRequest.message = message
+      savedRequest.error = true
+      commit('ADD_REQUEST_MUTATION', savedRequest)
+    }
   },
   async [deleteRequest] ({ commit }, request) {
     try {
@@ -131,7 +141,11 @@ export const actions = {
         commit('SET_MENSAJE', response.data.message)
       }
     } catch (e) {
-      console.log(e.response.data)
+      const message = 'Se ha perdido la conexión con el servidor, intente en un momento'
+      const savedRequest = {}
+      savedRequest.message = message
+      savedRequest.error = true
+      commit('ADD_REQUEST_MUTATION', savedRequest)
     }
   },
   // no sirve no se edita asi
@@ -155,6 +169,8 @@ export const actions = {
   },
   // Especialista da respuesta y cambia el estado de la solicitud
   async [specialistAnswer] ({ commit }, request) {
+    const idEspecialista = localStorage.getItem('user_id')
+    request.id_especialista = idEspecialista
     const response = await this.$axios.put(`solicitudes/especialista-set-respuesta/${request.id_solicitud}`, request)
     const payload = response.data
     commit('EDIT_REQUEST_MUTATION', payload)

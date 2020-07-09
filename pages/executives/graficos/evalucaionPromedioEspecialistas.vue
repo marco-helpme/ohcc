@@ -85,10 +85,8 @@ export default {
     fillPromediosEspecialistas (promedios) {
       const promediosEspecialistas = []
       for (let i = 0; i < promedios.length; i++) {
-        console.log('lista de promedios ' + promedios[i])
         promediosEspecialistas.push(this.CalcularPromedio(promedios[i]))
       }
-      console.log(promediosEspecialistas + ' listaaaaa')
       return promediosEspecialistas
     },
     fillColors () {

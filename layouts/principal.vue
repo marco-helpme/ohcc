@@ -207,11 +207,25 @@
       v-bind:nombre="user.nombre"
       v-bind:drawer="drawer"
       v-bind:items="specialistItems"
+      v-bind:publicitems="publicitems"
+    />
+    <menu-specialist-component
+      v-else-if="user != null && user.id_rol == '4'"
+      v-bind:nombre="user.nombre"
+      v-bind:drawer="drawer"
+      v-bind:items="adminitems"
+      v-bind:publicitems="publicitems"
+    />
+    <menu-specialist-component
+      v-else-if="user != null && user.id_rol == '1'"
+      v-bind:nombre="user.nombre"
+      v-bind:drawer="drawer"
+      v-bind:items="executivesItems"
+      v-bind:publicitems="publicitems"
     />
     <navigation-drawer-component v-else-if="user != null" v-bind:drawer="drawer" v-bind:idrolUsuario="user.id_rol" v-bind:nombre="user.nombre" />
     <menu-public-component v-else-if="user === null" v-bind:items="publicitems" v-bind:drawer="drawer" />
     <!--    <navigation-drawer-component v-else v-bind:drawer= drawer v-bind:idrolUsuario="'0'" v-bind:nombre="''" />-->
-
     <v-content class="fondo">
       <v-container
         fluid
@@ -236,7 +250,7 @@
               {{ snackbar.text }}
 
               <v-btn @click="snackbar.showing = false" text>
-                Close
+                Cerrar
               </v-btn>
             </v-snackbar>
           </v-col>
@@ -257,7 +271,7 @@
         >
           <v-icon
             color="#cc5229"
-            large
+            x-large
           >
             mdi-youtube
           </v-icon>
@@ -269,6 +283,7 @@
           <v-icon
             color="#cc5229"
             large
+            class="mdi-spin"
           >
             mdi-instagram
           </v-icon>
@@ -292,7 +307,7 @@
             color="#cc5229"
             large
           >
-            mdi-facebook-box
+            mdi-facebook
           </v-icon>
         </a>
       </v-row>
@@ -311,6 +326,7 @@ import MenuSpecialistComponent from '../components/menu/menuSpecialistComponent'
 import MenuPublicComponent from '../components/menu/menuPublicComponent'
 export default {
   components: { MenuPublicComponent, MenuSpecialistComponent, NavigationDrawerComponent, ValidationProvider, ValidationObserver },
+  middleware: 'load-data',
   props: {
     source: String
   },
@@ -471,16 +487,28 @@ export default {
       { title: 'Inicio', icon: 'dashboard', to: '/' },
       { title: 'Directivos', icon: 'account_box', to: '/executives' },
       { title: 'Especialistas', icon: 'account_box', to: '/executives/specialist' },
-      { title: 'Solicitudes Respondidas', icon: 'account_box', to: '/executives/graficos/solicitudesRespuestas' },
+      { title: 'Solicitudes Respondidas', icon: 'mdi-text-box-check', to: '/executives/graficos/solicitudesRespuestas' },
       { title: 'Evalucaión Promedio Especialistas', icon: 'account_box', to: '/executives/graficos/evalucaionPromedioEspecialistas' },
       { title: 'Comportamiento Solicitudes', icon: 'account_box', to: '/executives/graficos/comportamientoSolicitudesAnuales' }
     ],
-    specialistItems: [
+    adminitems: [
       {
-        icon: 'mdi-apps',
-        title: 'Inicio',
-        to: '/'
+        icon: 'mdi-account',
+        title: 'Gestionar Ciudadano',
+        to: '/admin/gestionar/ciudadano'
       },
+      {
+        icon: 'mdi-account',
+        title: 'Gestionar Especialista',
+        to: '/admin/gestionar/especialista'
+      },
+      {
+        icon: 'mdi-account',
+        title: 'Gestionar Directivo',
+        to: '/admin/gestionar/directivo'
+      }
+    ],
+    specialistItems: [
       {
         icon: 'mdi-account',
         title: 'Consultas',
@@ -520,9 +548,15 @@ export default {
       'signup',
       'createCitizen'
     ]),
-    loginUser (usuario) {
-      this.login(usuario)
-      this.$store.dispatch('snackbar/setSnackbar', { text: `Logeado con éxito` })
+    async loginUser (usuario) {
+      try {
+        await this.login(usuario)
+        if (this.message.error) {
+          this.$store.dispatch('snackbar/setSnackbar', { color: 'red', text: this.message.message })
+        } else { this.$store.dispatch('snackbar/setSnackbar', { text: this.message.message }) }
+      } catch {
+        this.$store.dispatch('snackbar/setSnackbar', { color: 'red', text: 'error de conexión' })
+      }
     },
     salir () {
       this.logout()
@@ -585,5 +619,8 @@ export default {
 
   a, a:visited, a:hover, a:focus {
     text-decoration: none;
+  }
+  span {
+    color: #8d0000;
   }
 </style>

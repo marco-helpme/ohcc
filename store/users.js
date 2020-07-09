@@ -110,12 +110,11 @@ export const actions = {
       const response = await this.$axios.post(`usuarios/login`, user)
       const payload = response.data
       commit('LOGIN_USER_MUTATION', payload.data)
-      commit('SET_MESSAGE_LOGIN_MUTATION', payload.message)
+      commit('SET_MESSAGE_LOGIN_MUTATION', payload)
       localStorage.setItem('user_id', payload.data.id_usuario)
-      console.log(response)
       return payload
     } catch (e) {
-      console.log(e.response.data.message)
+      console.log(e.response)
     }
   },
   async [setuserbyid] ({ commit }, id) {

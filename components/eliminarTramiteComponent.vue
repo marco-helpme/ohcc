@@ -12,8 +12,13 @@
           dark
           v-bind="attrs"
           v-on="on"
+          icon
         >
-          Click Me
+          <v-icon
+            color="red"
+          >
+            delete
+          </v-icon>
         </v-btn>
       </template>
       <v-card

@@ -122,3 +122,5 @@ export const loadCitizensType = 'loadCitizensType'
 // MUTATIONS
 export const SET_REQUEST_TYPE_MUTATION = 'SET_REQUEST_TYPE_MUTATION'
 export const loadRequestType = 'loadRequestType'
+
+export const DELETE_CARGO_MUTATION = 'DELETE_CARGO_MUTATION'

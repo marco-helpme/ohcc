@@ -84,6 +84,9 @@ pre {
   background-color: #cc5229;
   margin-right: 5px;
 }
+.Chart {
+  background: antiquewhite
+}
 
 
 .glossary {
@@ -104,6 +107,11 @@ pre {
   font-size: 18px !important;
   font-family: Constantia, "Lucida Bright", Lucidabright, "Lucida Serif", Lucida, "DejaVu Serif", "Bitstream Vera Serif", "Liberation Serif", Georgia, serif !important;
   color: #464646 !important;
+}
+.validate {
+  font-size: 12px !important;
+  font-family: Constantia, "Lucida Bright", Lucidabright, "Lucida Serif", Lucida, "DejaVu Serif", "Bitstream Vera Serif", "Liberation Serif", Georgia, serif !important;
+  color: #8d0000 !important;
 }
 .v-application .primary--text {
   color: #8d0000 !important;

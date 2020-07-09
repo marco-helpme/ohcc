@@ -1,60 +1,10 @@
-<template id="my-table">
+<template>
   <v-container>
     <v-row>
-      <v-dialog v-model="dialog" persistent max-width="600px">
-        <template v-slot:activator="{ on }">
-          <v-btn
-            v-on="on"
-            color="#cc5229"
-            type="button"
-            aria-label="Scroll to top"
-            title="Scroll to top"
-            class="v-btn v-btn--bottom v-btn--contained v-btn--fab v-btn--fixed v-btn--right v-btn--round theme--dark v-size--large red"
-            style="transform-origin: center center 0px;"
-          >
-            <span class="v-btn__content"><i
-              aria-hidden="true"
-              class="v-icon notranslate mdi mdi-plus theme--dark"
-            /></span>
-          </v-btn>
-        </template>
-        <validation-observer v-slot="{ invalid }">
-          <v-card>
-            <v-card-text>
-              <v-container>
-                <v-row>
-                  <v-col cols="12">
-                    <validation-provider v-slot="{ errors }" rules="max:1500|min:20|required">
-                      <v-textarea
-                        v-model="sugerencia.descripcion"
-                        label="Descripcón"
-                        auto-grow
-                        clearable
-                        filled
-                        shaped
-                        required
-                        color="#8d0000"
-                      />
-                      <span>{{ errors[0] }}</span>
-                    </validation-provider>
-                  </v-col>
-                </v-row>
-              </v-container>
-            </v-card-text>
-            <v-card-actions>
-              <v-spacer />
-              <v-btn @click="dialog = false" color="red" dark>
-                <v-icon>mdi-close</v-icon>Cerrar
-              </v-btn>
-              <v-btn :disabled="invalid" @click="crearandAct(), dialog = false" color="blue darken-1" dark>
-                <v-icon class="mr-1">
-                  mdi-send
-                </v-icon>Enviar
-              </v-btn>
-            </v-card-actions>
-          </v-card>
-        </validation-observer>
-      </v-dialog>
+      <crear-consulta-component
+        v-bind:consulta="sugerencia"
+        v-bind:crearand-act="crearandAct"
+      />
     </v-row>
     <v-row
       v-for="item in requests_user"
@@ -79,29 +29,37 @@
                 >
                   <span class="title font-weight-light"># {{ item.id_solicitud }}</span>
                 </v-col>
-                <v-col
-                  v-if="item.id_estado === '1'"
-                  cols="1"
+                <v-row
+                  justify="end"
+                  align="start"
+                  class="m-1"
                 >
-                  <edit-description-user-component
-                    v-bind:estado="item.id_estado"
-                    v-bind:descripcion="item.descripcion"
-                    v-bind:update-description-user="updateDescriptionUser"
-                    v-bind:id-solicitud="item.id_solicitud"
-                    v-bind:load-request-user="loadRquestUser"
-                    v-bind:id-tipo-solicitud="request.id_tipo_solicitud"
-                  />
-                  <v-icon
-                    @click="deleteItem(item)"
-                    color="red"
+                  <v-col
+                    v-if="item.id_estado === '1'"
+                    sm="1"
+                    offset-sm="1"
+                    class="ml-2"
                   >
-                    delete
-                  </v-icon>
-                  <eliminar-tramite-component
-                    v-bind:eliminar="deleteItem"
-                    v-bind:item="item"
-                  />
-                </v-col>
+                    <edit-description-user-component
+                      v-bind:estado="item.id_estado"
+                      v-bind:descripcion="item.descripcion"
+                      v-bind:update-description-user="updateDescriptionUser"
+                      v-bind:id-solicitud="item.id_solicitud"
+                      v-bind:load-request-user="loadRquestUser"
+                      v-bind:id-tipo-solicitud="request.id_tipo_solicitud"
+                    />
+                  </v-col>
+                  <v-col
+                    v-if="item.id_estado === '1'"
+                    sm="1"
+                    class="mr-2"
+                  >
+                    <eliminar-tramite-component
+                      v-bind:eliminar="deleteItem"
+                      v-bind:item="item"
+                    />
+                  </v-col>
+                </v-row>
               </v-row>
             </v-card-title>
             <v-card-text class="headline font-weight-bold" style="float: left">
@@ -145,16 +103,16 @@
 <script>
 import { mapState, mapActions } from 'vuex'
 import moment from 'moment'
-import { ValidationProvider, ValidationObserver } from 'vee-validate'
 import Estado from '../../../components/estado'
 import EditDescriptionUserComponent from '../../../components/citizens/editDescriptionUserComponent'
 import EliminarTramiteComponent from '~/components/eliminarTramiteComponent'
+import CrearConsultaComponent from '~/components/citizens/CrearConsultaComponent'
 export default {
   middleware: 'redirect',
   head: { 'titleTemplate': '%s - Sugerencias' },
   name: 'Index',
   layout: 'principal',
-  components: { EliminarTramiteComponent, EditDescriptionUserComponent, Estado, ValidationProvider, ValidationObserver },
+  components: { CrearConsultaComponent, EliminarTramiteComponent, EditDescriptionUserComponent, Estado },
   data () {
     return {
       eliminarDailog: false,
@@ -183,7 +141,8 @@ export default {
   computed: {
     ...mapState('suggestions', [
       'requests_user',
-      'mensaje'
+      'mensaje',
+      'consulta'
     ]),
     ...mapState('users', [
       'user'
@@ -214,13 +173,19 @@ export default {
     },
     async deleteItem (item) {
       await this.deleteRequest(item)
-      this.$store.dispatch('snackbar/setSnackbar', { color: 'red', text: this.mensaje })
+      if (this.consulta.error) {
+        this.$store.dispatch('snackbar/setSnackbar', { color: 'red', text: this.consulta.message })
+      } else {
+        this.$store.dispatch('snackbar/setSnackbar', { text: this.consulta })
+      }
       this.loadRquestUser(this.request)
     },
     async crearandAct () {
       await this.filluserId()
       await this.createRequest(this.sugerencia)
-      this.snackbar = true
+      if (this.consulta.error === true) {
+        this.$store.dispatch('snackbar/setSnackbar', { color: 'red', text: this.consulta.message })
+      } else { this.$store.dispatch('snackbar/setSnackbar', { text: this.consulta.message }) }
       this.loadRquestUser(this.request)
       this.sugerencia.descripcion = ''
     },
