@@ -11,11 +11,11 @@
             <v-col>
               <v-list-item-title class="headline blank">
               </v-list-item-title>
-              <!--              <v-list-item-subtitle>-->
-              <!--                <p class="blank">-->
-              <!--                  subtext-->
-              <!--                </p>-->
-              <!--              </v-list-item-subtitle>-->
+<!--                            <v-list-item-subtitle>-->
+<!--                              <p class="blank">-->
+<!--                                subtext-->
+<!--                              </p>-->
+<!--                            </v-list-item-subtitle>-->
             </v-col>
             <v-col>
               <v-list-item-title class="headline blank">

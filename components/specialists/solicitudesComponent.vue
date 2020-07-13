@@ -75,7 +75,7 @@
                 v-bind:fecha-creada="item.fecha_creada"
                 v-bind:fecha-iniciada="item.fecha_iniciada"
                 v-bind:fecha-finalizada="item.fecha_respuesta"
-                v-bind:usario="item.id_usuario"
+                v-bind:usario="item.nombre_usuario"
               />
             </v-card-actions>
           </v-card>

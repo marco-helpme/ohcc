@@ -114,7 +114,7 @@ export default {
     },
     nombre: {
       type: String,
-      default: 'null'
+      default: ''
     },
     drawer: {
       type: Boolean,

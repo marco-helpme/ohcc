@@ -2,7 +2,11 @@
   <v-container>
     <v-row>
       <v-col>
-        <div id="map" class="map map-home" style="margin:12px 0 12px 0;height:400px">
+        <v-card>
+          <v-card-title>
+            <h1>Mapa de La Ciudad De Camagüey</h1>
+          </v-card-title>
+          <div id="map" class="map map-home" style="padding: 10px;margin:12px 0 12px 0;height:400px">
             <no-ssr>
               <l-map :zoom="13" :center="[21.3802, -77.92309]">
                 <l-tile-layer url="http://{s}.tile.osm.org/{z}/{x}/{y}.png" />
@@ -14,6 +18,7 @@
               </l-map>
             </no-ssr>
           </div>
+        </v-card>
       </v-col>
     </v-row>
   </v-container>

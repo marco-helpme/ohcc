@@ -33,7 +33,7 @@
           </h4> {{ evaluacion }}
         </v-list-item>
         <v-list-item>
-          <v-icon color="red">mdi-account-circle</v-icon><h4>No. Usuario:</h4> <span style="margin-left: 5px">{{ usario }}</span>
+<!--          <v-icon color="red">mdi-account-circle</v-icon><h4>No. Usuario:</h4> <span style="margin-left: 5px">{{ usario }}</span>-->
         </v-list-item>
       </v-col>
     </v-row>

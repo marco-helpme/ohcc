@@ -3,7 +3,12 @@
     <v-flex>
       <!--      head de la pagina-->
       <section>
-        <v-parallax src="portada.jpg" />
+        <v-container
+          fluid
+        >
+          <!--            <v-parallax src="portada.jpg" />-->
+          <v-img src="portada.jpg" />
+        </v-container>
       </section>
       <!--      Presentacion de los direcctivos-->
 

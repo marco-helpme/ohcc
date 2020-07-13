@@ -11,11 +11,18 @@
       hide-default-footer
     >
       <template v-slot:header>
-        <v-text-field
-          v-model="search"
-          prepend-inner-icon="search"
-          label="Buscar"
-        />
+        <v-row>
+          <v-col
+          cols="3"
+          >
+            <v-text-field
+              v-model="search"
+              prepend-inner-icon="search"
+              label="Buscar"
+              outlined
+            />
+          </v-col>
+        </v-row>
       </template>
 
       <template v-slot:default="props">

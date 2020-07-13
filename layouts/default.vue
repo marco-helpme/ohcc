@@ -223,6 +223,13 @@
       v-bind:items="executivesItems"
       v-bind:publicitems="publicitems"
     />
+    <menu-specialist-component
+      v-else-if="user != null && user.id_rol == '3'"
+      v-bind:nombre="user.nombre"
+      v-bind:drawer="drawer"
+      v-bind:items="citizensItems"
+      v-bind:publicitems="publicitems"
+    />
     <navigation-drawer-component v-else-if="user != null" v-bind:drawer="drawer" v-bind:idrolUsuario="user.id_rol" v-bind:nombre="user.nombre" />
     <menu-public-component v-else-if="user === null" v-bind:items="publicitems" v-bind:drawer="drawer" />
     <!--    <navigation-drawer-component v-else v-bind:drawer= drawer v-bind:idrolUsuario="'0'" v-bind:nombre="''" />-->
@@ -452,6 +459,11 @@ export default {
         icon: 'mdi-bookmark',
         title: 'Inicio',
         to: '/'
+      },
+      {
+        icon: 'mdi-thought-bubble',
+        title: 'Acción Constructiva',
+        to: '/citizens/accionConstructiva'
       },
       {
         icon: 'mdi-thought-bubble',

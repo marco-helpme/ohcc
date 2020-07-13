@@ -139,6 +139,7 @@ export const actions = {
       if (response.status === 200 || response.status === 204) {
         commit('DELETE_REQUEST_MUTATION', request.id_solicitud)
         commit('SET_MENSAJE', response.data.message)
+        return response.data
       }
     } catch (e) {
       const message = 'Se ha perdido la conexión con el servidor, intente en un momento'

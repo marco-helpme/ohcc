@@ -223,10 +223,19 @@
       v-bind:items="executivesItems"
       v-bind:publicitems="publicitems"
     />
+    <menu-specialist-component
+      v-else-if="user != null && user.id_rol == '3'"
+      v-bind:nombre="user.nombre"
+      v-bind:drawer="drawer"
+      v-bind:items="citizensItems"
+      v-bind:publicitems="publicitems"
+    />
     <navigation-drawer-component v-else-if="user != null" v-bind:drawer="drawer" v-bind:idrolUsuario="user.id_rol" v-bind:nombre="user.nombre" />
     <menu-public-component v-else-if="user === null" v-bind:items="publicitems" v-bind:drawer="drawer" />
     <!--    <navigation-drawer-component v-else v-bind:drawer= drawer v-bind:idrolUsuario="'0'" v-bind:nombre="''" />-->
     <v-content class="fondo">
+      <!--      <v-img style="height: 50%" src="portada.jpg" />-->
+<!--      <v-parallax src="portada.jpg" />-->
       <v-container
         fluid
         class="fondo"
@@ -449,9 +458,9 @@ export default {
       }],
     citizensItems: [
       {
-        icon: 'mdi-bookmark',
-        title: 'Inicio',
-        to: '/'
+        icon: 'mdi-thought-bubble',
+        title: 'Acción Constructiva',
+        to: '/citizens/accionConstructiva'
       },
       {
         icon: 'mdi-thought-bubble',
@@ -462,27 +471,8 @@ export default {
         icon: 'mdi-chart-bubble',
         title: 'Quejas',
         to: '/citizens/quejas'
-      },
-      {
-        icon: 'mdi-magnify',
-        title: 'Glosario',
-        to: '/public/glosario'
-      },
-      {
-        icon: 'mdi-book-multiple',
-        title: 'Libros y Regulaciones',
-        to: '/public/libroyregulaciones'
-      },
-      {
-        icon: 'mdi-map',
-        title: 'Mapa',
-        to: '/public/mapa'
-      },
-      {
-        icon: 'mdi-image-multiple',
-        title: 'Galería',
-        to: '/public/galeria'
-      }],
+      }
+    ],
     executivesItems: [
       { title: 'Inicio', icon: 'dashboard', to: '/' },
       { title: 'Directivos', icon: 'account_box', to: '/executives' },

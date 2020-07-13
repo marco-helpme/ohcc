@@ -1,6 +1,10 @@
 import colors from 'vuetify/es5/util/colors'
 
 export default {
+  server: {
+    port: 3000,
+    host: '0.0.0.0'
+  },
   mode: 'universal',
   /*
   ** Headers of the page
@@ -66,7 +70,9 @@ export default {
   ** See https://axios.nuxtjs.org/options
   */
   axios: {
-    baseURL: 'http://api.test/api/v1'
+    baseURL: 'http://localhost/api/public/api/v1'
+
+    // 'http://api.test/api/v1'
   },
   /*
   ** vuetify module configuration
