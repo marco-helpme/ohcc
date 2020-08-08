@@ -11,11 +11,15 @@ import {
 export const state = () => ({
   citizens: [],
   citizen: [],
-  specialists: []
+  specialists: [],
+  message: ''
 })
 export const mutations = {
   [ SET_CITIZENS_MUTATION ] (state, citizen) {
     state.citizens = citizen
+  },
+  SET_MESSAGE_MUTATION (state, message) {
+    state.message = message
   },
   [ SET_CITIZEN_MUTATION ] (state, citizen) {
     state.citizen = citizen
@@ -50,11 +54,9 @@ export const actions = {
       await this.$axios.post('/ciudadanos/crear-usuario', citizen)
       const savedCitizen = citizen
       commit('ADD_CITIZEN_MUTATION', citizen)
-      console.log(citizen)
       return savedCitizen
     } catch (e) {
-      console.log(e.response.data)
-      alert(e.response.data.message)
+      commit('SET_MESSAGE_MUTATION', 'Ups.. ha ocurrido un error')
     }
   },
   /**

@@ -234,6 +234,8 @@
     <menu-public-component v-else-if="user === null" v-bind:items="publicitems" v-bind:drawer="drawer" />
     <!--    <navigation-drawer-component v-else v-bind:drawer= drawer v-bind:idrolUsuario="'0'" v-bind:nombre="''" />-->
     <v-content class="fondo">
+      <!--      <v-img style="height: 50%" src="portada.jpg" />-->
+      <!--      <v-parallax src="portada.jpg" />-->
       <v-container
         fluid
         class="fondo"
@@ -456,14 +458,19 @@ export default {
       }],
     citizensItems: [
       {
-        icon: 'mdi-bookmark',
-        title: 'Inicio',
-        to: '/'
+        icon: 'mdi-frequently-asked-questions',
+        title: 'Consulta',
+        to: '/citizens/consulta'
       },
       {
-        icon: 'mdi-thought-bubble',
-        title: 'Acción Constructiva',
+        icon: 'mdi-office-building',
+        title: 'Acciones Constructivas',
         to: '/citizens/accionConstructiva'
+      },
+      {
+        icon: 'mdi-domain',
+        title: 'Consulta para Acciones Constructivas',
+        to: '/citizens/consultaAccionConstructiva'
       },
       {
         icon: 'mdi-thought-bubble',
@@ -471,30 +478,11 @@ export default {
         to: '/citizens/sugerencias'
       },
       {
-        icon: 'mdi-chart-bubble',
+        icon: 'mdi-emoticon-angry',
         title: 'Quejas',
         to: '/citizens/quejas'
-      },
-      {
-        icon: 'mdi-magnify',
-        title: 'Glosario',
-        to: '/public/glosario'
-      },
-      {
-        icon: 'mdi-book-multiple',
-        title: 'Libros y Regulaciones',
-        to: '/public/libroyregulaciones'
-      },
-      {
-        icon: 'mdi-map',
-        title: 'Mapa',
-        to: '/public/mapa'
-      },
-      {
-        icon: 'mdi-image-multiple',
-        title: 'Galería',
-        to: '/public/galeria'
-      }],
+      }
+    ],
     executivesItems: [
       { title: 'Inicio', icon: 'dashboard', to: '/' },
       { title: 'Directivos', icon: 'account_box', to: '/executives' },
@@ -518,36 +506,46 @@ export default {
         icon: 'mdi-account',
         title: 'Gestionar Directivo',
         to: '/admin/gestionar/directivo'
+      },
+      {
+        icon: 'mdi-account',
+        title: 'Gestionar Cargo',
+        to: '/admin/gestionar/cargo'
+      },
+      {
+        icon: 'mdi-account',
+        title: 'Gestionar Tipo de Ciudadano',
+        to: '/admin/gestionar/tipo_ciudadano'
+      },
+      {
+        icon: 'mdi-account',
+        title: 'Gestionar Tipo de Local',
+        to: '/admin/gestionar/tipolocal'
       }
     ],
     specialistItems: [
       {
-        icon: 'mdi-account',
+        icon: 'mdi-frequently-asked-questions',
         title: 'Consultas',
         to: '/specialists/consultas'
       },
       {
-        icon: 'mdi-account',
-        title: 'Acciónes Constructivas',
+        icon: 'mdi-office-building',
+        title: 'Asesorías Técnicas',
         to: '/specialists/accionConstructiva'
       },
       {
-        icon: 'mdi-account',
-        title: 'Consulta para Acciónes Constructivas',
+        icon: 'mdi-domain',
+        title: 'Consulta para Acciones Constructivas',
         to: '/specialists/consultaaccionConstructiva'
       },
       {
-        icon: 'mdi-account',
-        title: 'Regulaciones TCP',
-        to: '/specialists/regulacionestcp'
-      },
-      {
-        icon: 'mdi-account',
+        icon: 'mdi-thought-bubble',
         title: 'Sugerencias',
         to: '/specialists/sugerencias'
       },
       {
-        icon: 'mdi-account',
+        icon: 'mdi-emoticon-angry',
         title: 'Quejas',
         to: '/specialists/quejas'
       }
@@ -573,8 +571,13 @@ export default {
     salir () {
       this.logout()
     },
-    registrarse () {
-      this.signup(this.editedItem)
+    async registrarse () {
+      try {
+        const user = await this.signup(this.editedItem)
+        this.$store.dispatch('snackbar/setSnackbar', { text: user.nombre + ' se ha registrado con éxito' })
+      } catch (e) {
+        this.$store.dispatch('snackbar/setSnackbar', { color: 'red', text: 'El usuario ya existe' })
+      }
     },
     close () {
       this.dialog2 = false

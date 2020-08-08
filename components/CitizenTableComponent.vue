@@ -23,61 +23,61 @@
             </template>
             <v-card>
               <v-form>
-              <v-card-title>
-                <span class="headline">{{ formTitle }}</span>
-              </v-card-title>
+                <v-card-title>
+                  <span class="headline">{{ formTitle }}</span>
+                </v-card-title>
 
-              <v-card-text>
-                <v-container>
-                  <v-row>
-                    <v-col cols="12" sm="6" md="4">
-                      <v-text-field v-model="citizen.nombre" label="Nombre" />
-                    </v-col>
-                    <v-col cols="12" sm="6" md="4">
-                      <v-text-field v-model="citizen.nombre_usuario" label="Usuario" />
-                    </v-col>
-                    <v-col cols="12" sm="6" md="4">
-                      <v-text-field v-model="citizen.apellido_1" label="Primer Apellido" />
-                    </v-col>
-                    <v-col cols="12" sm="6" md="4">
-                      <v-text-field v-model="citizen.apellido_2" label="Segundo Apellido" />
-                    </v-col>
-                    <v-col cols="12" sm="6" md="4">
-                      <v-text-field v-model="citizen.ci" label="Ci" />
-                    </v-col>
-                    <v-col cols="12" sm="6" md="4">
-                      <v-text-field v-model="citizen.dir_particular" label="Dirección Particular" />
-                    </v-col>
-                    <v-col cols="12" sm="6" md="4">
-                      <v-text-field v-model="citizen.telef" label="Teléfono" />
-                    </v-col>
-                    <v-col cols="12" sm="6" md="4">
-                      <v-text-field v-model="citizen.email" type="email" label="Correo Electrónico" />
-                    </v-col>
-                    <v-col cols="12" sm="6" md="4">
-                      <v-text-field v-model="citizen.id_tipo_ciudadano" label="Tipo de Ciudadano" />
-                    </v-col>
-                    <v-col cols="12" sm="6" md="4">
-                      <v-text-field v-model="citizen.password" type="password" label="Contraseña" />
-                    </v-col>
-                    <v-col cols="12" sm="6" md="4">
-                      <v-text-field v-model="citizen.id_rol" type="text" label="Id Rol" validate-on-blur />
-                    </v-col>
-                  </v-row>
-                </v-container>
-              </v-card-text>
+                <v-card-text>
+                  <v-container>
+                    <v-row>
+                      <v-col cols="12" sm="6" md="4">
+                        <v-text-field v-model="citizen.nombre" label="Nombre" />
+                      </v-col>
+                      <v-col cols="12" sm="6" md="4">
+                        <v-text-field v-model="citizen.nombre_usuario" label="Usuario" />
+                      </v-col>
+                      <v-col cols="12" sm="6" md="4">
+                        <v-text-field v-model="citizen.apellido_1" label="Primer Apellido" />
+                      </v-col>
+                      <v-col cols="12" sm="6" md="4">
+                        <v-text-field v-model="citizen.apellido_2" label="Segundo Apellido" />
+                      </v-col>
+                      <v-col cols="12" sm="6" md="4">
+                        <v-text-field v-model="citizen.ci" label="Ci" />
+                      </v-col>
+                      <v-col cols="12" sm="6" md="4">
+                        <v-text-field v-model="citizen.dir_particular" label="Dirección Particular" />
+                      </v-col>
+                      <v-col cols="12" sm="6" md="4">
+                        <v-text-field v-model="citizen.telef" label="Teléfono" />
+                      </v-col>
+                      <v-col cols="12" sm="6" md="4">
+                        <v-text-field v-model="citizen.email" type="email" label="Correo Electrónico" />
+                      </v-col>
+                      <v-col cols="12" sm="6" md="4">
+                        <v-text-field v-model="citizen.id_tipo_ciudadano" label="Tipo de Ciudadano" />
+                      </v-col>
+                      <v-col cols="12" sm="6" md="4">
+                        <v-text-field v-model="citizen.password" type="password" label="Contraseña" />
+                      </v-col>
+                      <v-col cols="12" sm="6" md="4">
+                        <v-text-field v-model="citizen.id_rol" type="text" label="Id Rol" validate-on-blur />
+                      </v-col>
+                    </v-row>
+                  </v-container>
+                </v-card-text>
 
-              <v-card-actions>
-                <v-spacer />
-                <v-btn @click="close" color="blue darken-1" text>
-                  Cancel
-                </v-btn>
-                <v-btn @click="createCitizen(citizen)" color="blue darken-1" text>
-                  <nuxt-link to="/citizens" />
-                  Save
-                </v-btn>
-              </v-card-actions>
-            </v-form>
+                <v-card-actions>
+                  <v-spacer />
+                  <v-btn @click="close" color="blue darken-1" text>
+                    Cancel
+                  </v-btn>
+                  <v-btn @click="createCitizen(citizen)" color="blue darken-1" text>
+                    <nuxt-link to="/citizens" />
+                    Enviar
+                  </v-btn>
+                </v-card-actions>
+              </v-form>
             </v-card>
           </v-dialog>
         </v-toolbar>

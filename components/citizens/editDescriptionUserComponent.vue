@@ -92,10 +92,15 @@ export default {
   },
   methods: {
     async actualizar (request) {
-      const request2 = {}
-      request2.id_tipo_solicitud = this.idTipoSolicitud
-      await this.updateDescriptionUser(request)
-      this.loadRequestUser(request2)
+      try {
+        const request2 = {}
+        request2.id_tipo_solicitud = this.idTipoSolicitud
+        await this.updateDescriptionUser(request)
+        await this.loadRequestUser(request2)
+        this.$store.dispatch('snackbar/setSnackbar', { text: 'Su tramite ha sido actualizado' })
+      } catch (e) {
+        this.$store.dispatch('snackbar/setSnackbar', { color: 'red', text: 'no se pudo editar el trámite' })
+      }
     }
   }
 }

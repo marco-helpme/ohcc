@@ -39,7 +39,7 @@
                   @click="atender(item)"
                   color="red"
                 >
-                  delete
+                  mdi-file-move
                 </v-icon>
                 <responder
                   v-bind:estado="item.id_estado"

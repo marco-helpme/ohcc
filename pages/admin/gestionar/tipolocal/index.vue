@@ -3,11 +3,11 @@
     <gestionar-nomenclador-component
       v-bind:title="title"
       v-bind:headers="headers"
-      v-bind:items="citizensType.data"
+      v-bind:items="local.data"
       v-bind:borrar="borrar"
     />
     <crear-nomenclador-component
-      v-bind:label="'Nuevo Cargo'"
+      v-bind:label="'Nuevo Local'"
       v-bind:contexto="nuevoCargo"
       v-bind:crearand-act="crear"
     />
@@ -23,31 +23,32 @@ export default {
   components: { CrearNomencladorComponent, GestionarNomencladorComponent },
   layout: 'principal',
   computed: {
-    ...mapState('citizen_type', ['citizensType'])
+    ...mapState('tipo_local', ['local'])
   },
   data: () => ({
-    title: 'Tipo de Ciudadano',
+    title: 'Tipo de Local',
     headers: [
-      { text: 'Tipo de Ciudadano', value: 'cargo' },
+      { text: 'Local', value: 'local' },
       { text: 'Actions', value: 'actions', sortable: false, align: 'right' }
     ],
     nuevoCargo: {
-      cargo: ''
+      local: ''
     }
   }),
   mounted () {
-    this.loadCitizensType()
+    this.cargarLocal()
   },
   methods: {
-    ...mapActions('citizen_type', [
-      'loadCitizensType',
-      'crearTipoCiudadano',
-      'eliminarTipoCiudadano'
+    ...mapActions('tipo_local', [
+      'cargarLocal',
+      'crearLocal',
+      'eliminarLocal',
+      'editarLocal'
     ]),
     async crear () {
       try {
         this.nuevoCargo.cargo.trim()
-        const newCargo = await this.crearTipoCiudadano(this.nuevoCargo)
+        const newCargo = await this.crearLocal(this.nuevoCargo)
         // await this.cargarCargos()
         this.$store.dispatch('snackbar/setSnackbar', { text: newCargo.message })
         this.nuevoCargo.cargo = ''
@@ -57,7 +58,7 @@ export default {
     },
     async borrar (item) {
       try {
-        const cargoEliminado = await this.eliminarCargo(item)
+        const cargoEliminado = await this.eliminarLocal(item)
         // await this.cargarCargos()
         this.$store.dispatch('snackbar/setSnackbar', { text: cargoEliminado.message })
       } catch (e) {

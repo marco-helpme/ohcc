@@ -16,15 +16,6 @@
         <v-spacer />
         <v-dialog v-model="dialog" max-width="800px">
           <template v-slot:activator="{ on }">
-            <v-btn
-              @click="descargarPDF1()"
-              color="primary"
-              dark
-              class="mb-2"
-              style="margin: 10px"
-            >
-              exportar PDF
-            </v-btn>
             <v-btn v-on="on" color="primary" dark class="mb-2" style="margin: 10px">
               Nuevo Especialista
             </v-btn>

@@ -29,11 +29,8 @@
             <v-flex xs12 sm4 class="my-4">
               <div class="text-center">
                 <h2 class="font">
-                  Quienes Atienden a la Población
+                  Trámites y Servicios
                 </h2>
-                <span class="subheading">
-                  Trabajamos para su satisfacción
-                </span>
               </div>
             </v-flex>
             <v-flex xs12>
@@ -41,92 +38,47 @@
                 <v-layout row wrap align-center>
                   <v-flex xs12 md4>
                     <template>
-                      <tram-card-component />
+                      <tram-card-component
+                        v-bind:icon="'mdi-frequently-asked-questions'"
+                        v-bind:title="'Consulta'"
+                        v-bind:color="'red'"
+                      />
                     </template>
                   </v-flex>
                   <v-flex xs12 md4>
                     <template>
-                      <v-card
-                        class="mx-auto"
-                        max-width="400"
-                      >
-                        <v-img
-                          class="white--text align-end"
-                          height="200px"
-                          src="https://cdn.vuetifyjs.com/images/cards/docks.jpg"
-                        >
-                          <v-card-title>Top 10 Australian beaches</v-card-title>
-                        </v-img>
-
-                        <v-card-subtitle class="pb-0">
-                          Number 10
-                        </v-card-subtitle>
-
-                        <v-card-text class="text--primary">
-                          <div>Whitehaven Beach</div>
-
-                          <div>Whitsunday Island, Whitsunday Islands</div>
-                        </v-card-text>
-
-                        <v-card-actions>
-                          <v-btn
-                            color="orange"
-                            text
-                          >
-                            Share
-                          </v-btn>
-
-                          <v-btn
-                            color="orange"
-                            text
-                          >
-                            Explore
-                          </v-btn>
-                        </v-card-actions>
-                      </v-card>
+                      <tram-card-component
+                        v-bind:icon="'mdi-office-building'"
+                        v-bind:title="'Asesorías Técnicas'"
+                        v-bind:color="'red'"
+                      />
                     </template>
                   </v-flex>
                   <v-flex xs12 md4>
                     <template>
-                      <v-card
-                        class="mx-auto"
-                        max-width="400"
-                        padding="5px"
-                      >
-                        <v-img
-                          class="white--text align-end"
-                          height="200px"
-                          src="https://cdn.vuetifyjs.com/images/cards/docks.jpg"
-                        >
-                          <v-card-title>Top 10 Australian beaches</v-card-title>
-                        </v-img>
-
-                        <v-card-subtitle class="pb-0">
-                          Number 10
-                        </v-card-subtitle>
-
-                        <v-card-text class="text--primary">
-                          <div>Whitehaven Beach</div>
-
-                          <div>Whitsunday Island, Whitsunday Islands</div>
-                        </v-card-text>
-
-                        <v-card-actions>
-                          <v-btn
-                            color="orange"
-                            text
-                          >
-                            Share
-                          </v-btn>
-
-                          <v-btn
-                            color="orange"
-                            text
-                          >
-                            Explore
-                          </v-btn>
-                        </v-card-actions>
-                      </v-card>
+                      <tram-card-component
+                        v-bind:icon="'mdi-domain'"
+                        v-bind:title="'Consulta para Acciones Constructivas'"
+                        v-bind:color="'red'"
+                      />
+                    </template>
+                  </v-flex>
+                  <v-flex xs12 md4>
+                    <template>
+                      <tram-card-component
+                        v-bind:icon="'mdi-thought-bubble'"
+                        v-bind:title="'Sugerencias'"
+                        v-bind:color="'red'"
+                      />
+                    </template>
+                  </v-flex>
+                  <v-flex xs12 md4>
+                    <template>
+                      <tram-card-component
+                        v-bind:icon="'mdi-emoticon-angry'"
+                        v-bind:title="'Quejas'"
+                        v-bind:color="'red'"
+                      />
                     </template>
                   </v-flex>
                 </v-layout>
