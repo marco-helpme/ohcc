@@ -1,10 +1,10 @@
 <template>
-  <v-app id="inspire">
+  <v-app>
     <v-app-bar
       app
       style="background-color: #8d0000; border-color: #8d0000"
     >
-      <v-app-bar-nav-icon @click.stop="drawer = !drawer" />
+      <v-app-bar-nav-icon @click.stop="this.$store.dispatch('menu/activar_drawer', true)" />
       <v-toolbar-title class="blank" />
       <v-spacer />
       <v-toolbar-items>
@@ -188,7 +188,6 @@
           <!--          Salir-->
           <div v-if="this.user != null">
             <v-btn
-              v-on="on"
               @click="salir()"
               color="white"
               text
@@ -236,35 +235,23 @@
     <v-content class="fondo">
       <!--      <v-img style="height: 50%" src="portada.jpg" />-->
       <!--      <v-parallax src="portada.jpg" />-->
-      <v-container
-        fluid
-        class="fondo"
-        style="color: black"
+      <transition name="slide-fade">
+        <nuxt />
+      </transition>
+      <v-snackbar
+        v-for="(snackbar, index) in snackbars.filter(s => s.showing)"
+        :key="snackbar.text + Math.random()"
+        v-model="snackbar.showing"
+        :timeout="snackbar.timeout"
+        :color="snackbar.color"
+        :style="`bottom: ${(index * 60) + 8}px`"
       >
-        <v-row
-          align="center"
-          justify="center"
-        >
-          <v-col class="text-center">
-            <nuxt />
+        {{ snackbar.text }}
 
-            <v-snackbar
-              v-for="(snackbar, index) in snackbars.filter(s => s.showing)"
-              :key="snackbar.text + Math.random()"
-              v-model="snackbar.showing"
-              :timeout="snackbar.timeout"
-              :color="snackbar.color"
-              :style="`bottom: ${(index * 60) + 8}px`"
-            >
-              {{ snackbar.text }}
-
-              <v-btn @click="snackbar.showing = false" text>
-                Cerrar
-              </v-btn>
-            </v-snackbar>
-          </v-col>
-        </v-row>
-      </v-container>
+        <v-btn @click="snackbar.showing = false" text>
+          Cerrar
+        </v-btn>
+      </v-snackbar>
     </v-content>
     <v-footer
       app
@@ -348,7 +335,8 @@ export default {
     ]),
     ...mapState('snackbar', [
       'snackbars'
-    ])
+    ]),
+    ...mapState('menu'.drawer)
   },
   data: () => ({
     title: '',
@@ -392,7 +380,7 @@ export default {
     },
     dialog: false,
     dialog2: false,
-    drawer: true,
+    // drawer: false,
     items: [
       {
         icon: 'mdi-apps',
@@ -637,5 +625,16 @@ export default {
   }
   span {
     color: #8d0000;
+  }
+  .slide-fade-enter-active {
+    transition: all 1s ease;
+  }
+  .slide-fade-leave-active {
+    transition: all 1s cubic-bezier(1.0, 0.5, 0.8, 1.0);
+  }
+  .slide-fade-enter, .slide-fade-leave-to
+    /* .slide-fade-leave-active below version 2.1.8 */ {
+    transform: translateX(10px);
+    opacity: 0;
   }
 </style>

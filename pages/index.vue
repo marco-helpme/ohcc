@@ -3,12 +3,8 @@
     <v-flex>
       <!--      head de la pagina-->
       <section>
-        <v-container
-          fluid
-        >
-          <!--            <v-parallax src="portada.jpg" />-->
-          <v-img src="portada.jpg" />
-        </v-container>
+        <!--                      <v-parallax src="portada.jpg" />-->
+        <v-img height="50%" src="portada.jpg" />
       </section>
       <!--      Presentacion de los direcctivos-->
 
@@ -89,10 +85,6 @@
       </v-lazy>
 
       <section>
-        <servicios />
-      </section>
-
-      <section>
         <v-parallax src="rocas.jpg" height="380" />
       </section>
       <v-lazy
@@ -153,9 +145,8 @@
 
 <script>
 import TramCardComponent from '~/components/tramCardComponent'
-import Servicios from '~/components/servicios'
 export default {
-  components: { Servicios, TramCardComponent },
+  components: { TramCardComponent },
   layout: 'principal',
   data: () => ({
     isActive: false,
@@ -167,6 +158,13 @@ export default {
       'Services',
       'Blog',
       'Contact Us'
+    ],
+    servicios: [
+      { title: 'Consulta', text: 'Brindamos el servicio de assesoria tecnica', color: 'red', icon: 'cancel' },
+      { title: 'Asesoría Técnia', text: 'Brindamos el servicio de assesoria tecnica', color: 'blue', icon: 'diamond' },
+      { title: 'Consulta para Acciones Constructivas', text: 'Brindamos el servicio de assesoria tecnica', color: 'indigo' },
+      { title: 'Asesoría Técnia', text: 'Brindamos el servicio de assesoria tecnica', color: 'orange' },
+      { title: 'Asesoría Técnia', text: 'Brindamos el servicio de assesoria tecnica', color: 'purple' }
     ]
   }),
   mounted () {
@@ -191,5 +189,11 @@ export default {
     line-height: 2rem;
     letter-spacing: normal !important;
     font-family: Lucida Bright,Georgia,serif;
+  }
+  .fade-enter-active, .fade-leave-active {
+    transition: opacity .5s;
+  }
+  .fade-enter, .fade-leave-to /* .fade-leave-active below version 2.1.8 */ {
+    opacity: 0;
   }
 </style>

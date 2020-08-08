@@ -1,6 +1,6 @@
 <template>
   <v-navigation-drawer
-    v-model="drawer"
+    v-model="cambio"
     app
   >
     <div class="rojo_desaturado">
@@ -12,7 +12,7 @@
                 <v-container>
                   <v-row>
                     <v-col>
-                      {{nombre}}
+                      {{ nombre }}
                     </v-col>
                   </v-row>
                 </v-container>
@@ -28,17 +28,18 @@
       </v-list-item>
     </div>
     <v-list dense>
-      <v-list-item-title align="center">
-      </v-list-item-title>
+      <v-list-item-title align="center" />
       <v-list-item
-              v-for="(item, i) in publicitems"
-              :key="i"
-              :to="item.to"
-              router
-              exact
+        v-for="(item, i) in publicitems"
+        :key="i"
+        :to="item.to"
+        router
+        exact
       >
         <v-list-item-action>
-          <v-icon color="rgb(204, 82, 41)">{{ item.icon }}</v-icon>
+          <v-icon color="rgb(204, 82, 41)">
+            {{ item.icon }}
+          </v-icon>
         </v-list-item-action>
         <v-list-item-content>
           <v-list-item-title v-text="item.title" />
@@ -46,8 +47,7 @@
       </v-list-item>
     </v-list>
     <v-list dense>
-      <v-list-item-title align="center">
-      </v-list-item-title>
+      <v-list-item-title align="center" />
       <v-list-item
         v-for="(item, i) in items"
         :key="i"
@@ -56,7 +56,9 @@
         exact
       >
         <v-list-item-action>
-          <v-icon color="rgb(204, 82, 41)">{{ item.icon }}</v-icon>
+          <v-icon color="rgb(204, 82, 41)">
+            {{ item.icon }}
+          </v-icon>
         </v-list-item-action>
         <v-list-item-content>
           <v-list-item-title v-text="item.title" />
@@ -75,7 +77,6 @@ export default {
       default: 'null'
     },
     drawer: {
-      type: Boolean,
       default: false
     },
     items: {
@@ -85,31 +86,11 @@ export default {
       type: Array
     }
   },
-  data: () => ({
-    drawer: null
-    // items: [
-    //   {
-    //     icon: 'mdi-apps',
-    //     title: 'Inicio',
-    //     to: '/'
-    //   },
-    //   {
-    //     icon: 'mdi-account',
-    //     title: 'Especialistas',
-    //     to: '/specialists'
-    //   },
-    //   {
-    //     icon: 'mdi-chart-bubble',
-    //     title: 'Quejas',
-    //     to: '/citizens/quejas'
-    //   },
-    //   {
-    //     icon: 'mdi-chart-bubble',
-    //     title: 'Solicitudes',
-    //     to: '/specialists/solicitudes'
-    //   }
-    // ]
-  })
+  computed: {
+    cambio () {
+      return this.drawer
+    }
+  }
 }
 </script>
 
