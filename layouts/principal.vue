@@ -4,7 +4,7 @@
       app
       style="background-color: #8d0000; border-color: #8d0000"
     >
-      <v-app-bar-nav-icon @click.stop="this.$store.dispatch('menu/activar_drawer', true)" />
+      <v-app-bar-nav-icon @click.stop="drawer = !drawer" />
       <v-toolbar-title class="blank" />
       <v-spacer />
       <v-toolbar-items>
@@ -335,8 +335,7 @@ export default {
     ]),
     ...mapState('snackbar', [
       'snackbars'
-    ]),
-    ...mapState('menu'.drawer)
+    ])
   },
   data: () => ({
     title: '',
@@ -380,7 +379,7 @@ export default {
     },
     dialog: false,
     dialog2: false,
-    // drawer: false,
+    drawer: false,
     items: [
       {
         icon: 'mdi-apps',

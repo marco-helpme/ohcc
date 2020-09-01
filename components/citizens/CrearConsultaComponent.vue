@@ -5,9 +5,7 @@
         v-on="on"
         color="#cc5229"
         type="button"
-        aria-label="Scroll to top"
-        title="Scroll to top"
-        class="v-btn v-btn--bottom v-btn--contained v-btn--fab v-btn--fixed v-btn--right v-btn--round theme--dark v-size--large red"
+        class="mb-10 v-btn v-btn--bottom v-btn--contained v-btn--fab v-btn--fixed v-btn--right v-btn--round theme--dark v-size--large red"
         style="transform-origin: center center 0px;"
       >
         <span class="v-btn__content"><i

@@ -1,3 +1,4 @@
+
 <template>
   <v-container>
     <v-row>
@@ -28,13 +29,6 @@
                   align="left"
                 >
                   <span class="title font-weight-light"># {{ item.id_solicitud }}</span>
-                  <v-chip
-                          class="title"
-                          color="red"
-                          text-color="white"
-                  >
-                    {{item.id_solicitud}}
-                  </v-chip>
                 </v-col>
                 <v-row
                   justify="end"
@@ -108,121 +102,16 @@
 </template>
 
 <script>
-import { mapState, mapActions } from 'vuex'
-import moment from 'moment'
-import Estado from '../../../components/estado'
-import EditDescriptionUserComponent from '../../../components/citizens/editDescriptionUserComponent'
-import EliminarTramiteComponent from '~/components/eliminarTramiteComponent'
-import CrearConsultaComponent from '~/components/citizens/CrearConsultaComponent'
+import { mapState } from 'vuex'
 export default {
-  middleware: 'redirect',
-  head: { 'titleTemplate': '%s - Sugerencias' },
-  name: 'Index',
-  layout: 'principal',
-  components: { CrearConsultaComponent, EliminarTramiteComponent, EditDescriptionUserComponent, Estado },
-  data () {
-    return {
-      eliminarDailog: false,
-      rol: 3,
-      requesteval: {
-        id_solicitud: '141',
-        evaluacion: 4
-      },
-      rating: 1,
-      timeout: 2000,
-      dialog: false,
-      dialog2: false,
-      solicitudes: '',
-      request: {
-        id_tipo_solicitud: 6
-      },
-      date: moment().format('YYYY-MM-DD'),
-      sugerencia: {
-        fecha_creada: moment().format('YYYY-MM-DD'),
-        descripcion: '',
-        id_usuario: '',
-        id_tipo_solicitud: 6
-      }
-    }
-  },
+  name: 'ConsultaComponent',
   computed: {
-    ...mapState('suggestions', [
-      'requests_user',
-      'mensaje',
-      'consulta'
-    ]),
-    ...mapState('users', [
-      'user'
-    ])
-  },
-  created () {
-    this.loadRquestUser(this.request)
-  },
-  mounted () {
-  },
-  methods: {
-    ...mapActions('suggestions', [
-      'loadRquestUser',
-      'createRequest',
-      'deleteRequest',
-      'userEvaluation',
-      'updateDescriptionUser'
-    ]),
-    ...mapActions('snackbar', [
-      'setSnackbar'
-    ]),
-    filluserId () {
-      this.sugerencia.id_usuario = this.user.id_usuario
-      this.request.id_usuario = this.user.id_usuario
-    },
-    async load () {
-      await this.filluserId()
-    },
-    async deleteItem (item) {
-      try {
-        const a = await this.deleteRequest(item)
-        if (this.consulta.error) {
-          this.$store.dispatch('snackbar/setSnackbar', { color: 'red', text: a.message })
-        } else {
-          this.$store.dispatch('snackbar/setSnackbar', { text: this.mensaje })
-        }
-        this.loadRquestUser(this.request)
-      } catch (e) {
-        this.$store.dispatch('snackbar/setSnackbar', { color: 'red', text: 'Se ha perdido la conexión con el servidor, intente en un momento' })
-      }
-    },
-    async crearandAct () {
-      await this.filluserId()
-      await this.createRequest(this.sugerencia)
-      if (this.consulta.error === true) {
-        this.$store.dispatch('snackbar/setSnackbar', { color: 'red', text: this.consulta.message })
-      } else { this.$store.dispatch('snackbar/setSnackbar', { text: this.consulta.message }) }
-      this.loadRquestUser(this.request)
-      this.sugerencia.descripcion = ''
-    },
-    yyyymmdd () {
-      const mm = this.getMonth() + 1 // getMonth() is zero-based
-      const dd = this.getDate()
-
-      return [this.getFullYear(),
-        (mm > 9 ? '' : '0') + mm,
-        (dd > 9 ? '' : '0') + dd
-      ].join('')
-    }
+    ...mapState('suggestions', ['requests_user'])
   }
-  // watch: {
-  //   user (val) {
-  //     if (this.user == null) {
-  //       this.$router.push('/')
-  //     } else if (this.user.id_rol !== 3) {
-  //       this.$router.push('/')
-  //     }
-  //   }
-  // }
 }
 </script>
 
-<style lang="css" scoped>
+<style scoped>
   .glossary {
     border-width: 3px !important;
     border-color: #8d0000 !important;
@@ -250,4 +139,5 @@ export default {
     color: #8d0000 !important;
     caret-color: #8d0000 !important;
   }
+
 </style>

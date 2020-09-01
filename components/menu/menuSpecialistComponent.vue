@@ -1,6 +1,6 @@
 <template>
   <v-navigation-drawer
-    v-model="cambio"
+    v-model="drawer"
     app
   >
     <div class="rojo_desaturado">
@@ -84,11 +84,6 @@ export default {
     },
     publicitems: {
       type: Array
-    }
-  },
-  computed: {
-    cambio () {
-      return this.drawer
     }
   }
 }
